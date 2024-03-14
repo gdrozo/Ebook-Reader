@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pp</title>
+
+    <link rel="stylesheet" href="tailwind_output.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="h-svh w-dvw font-['Libre_Baskerville'] bg-[#181a1b] text-gray-400 overflow-hidden">
+    <button id="previous" class="z-10 absolute left-0 right-3/4 top-0 bottom-0"></button>
+    <button id="next" class="z-10 absolute right-0 left-3/4 top-0 bottom-0"></button>
+    <div
+      class="h-svh w-dvw grid grid-cols-[2.3rem_auto_2.3rem] grid-rows-[4rem_auto_2rem] overflow-hidden"
+    >
+      <div></div>
+      <div class="grid grid-cols-[1fr_auto_1fr] items-end z-10 bg-[#181a1b]">
+        <div class="flex justify-start pb-4">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-5 h-5"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25"
+            />
+          </svg>
+        </div>
+        <div class="pb-4">Things to ones self</div>
+        <div class="flex justify-end pb-4">
+          <span id="page-number"> 0 </span>
+        </div>
+      </div>
+      <div></div>
+      <div></div>
+      <div id="area" class="h-[calc(100svh-4rem-1rem)] overflow-hidden">
+        <div id="links"></div>
+        <div id="content" class=""></div>
+      </div>
+      <div></div>
+    </div>
+    <div class="hidden">
+      <div
+        id="security"
+        class="absolute top-0 bottom-0 left-0 right-0 z-20 bg-[#181a1b] flex flex-col justify-end items-center text-white/70"
+      >
+        <div id="pass" class="text-lg">Use the pin to enter</div>
+        <div id="numPad" class="grid grid-cols-3 grid-rows-4 gap-x-6 gap-y-4 mt-6 mb-24 text-lg">
+          <button
+            id=""
+            class="bg-white/20 rounded-full h-16 w-16 flex justify-center items-center active:bg-white/30"
+          >
+            1
+          </button>
+          <button
+            id=""
+            class="bg-white/20 rounded-full h-16 w-16 flex justify-center items-center active:bg-white/30"
+          >
+            2
+          </button>
+          <button
+            id=""
+            class="bg-white/20 rounded-full h-16 w-16 flex justify-center items-center active:bg-white/30"
+          >
+            3
+          </button>
+          <button
+            id=""
+            class="bg-white/20 rounded-full h-16 w-16 flex justify-center items-center active:bg-white/30"
+          >
+            4
+          </button>
+          <button
+            id=""
+            class="bg-white/20 rounded-full h-16 w-16 flex justify-center items-center active:bg-white/30"
+          >
+            5
+          </button>
+          <button
+            id=""
+            class="bg-white/20 rounded-full h-16 w-16 flex justify-center items-center active:bg-white/30"
+          >
+            6
+          </button>
+          <button
+            id=""
+            class="bg-white/20 rounded-full h-16 w-16 flex justify-center items-center active:bg-white/30"
+          >
+            7
+          </button>
+          <button
+            id=""
+            class="bg-white/20 rounded-full h-16 w-16 flex justify-center items-center active:bg-white/30"
+          >
+            8
+          </button>
+          <button
+            id=""
+            class="bg-white/20 rounded-full h-16 w-16 flex justify-center items-center active:bg-white/30"
+          >
+            9
+          </button>
+          <button
+            id=""
+            class="rounded-full h-16 w-16 flex justify-center items-center active:bg-white/30"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              class="w-6 h-6"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M2.515 10.674a1.875 1.875 0 0 0 0 2.652L8.89 19.7c.352.351.829.549 1.326.549H19.5a3 3 0 0 0 3-3V6.75a3 3 0 0 0-3-3h-9.284c-.497 0-.974.198-1.326.55l-6.375 6.374ZM12.53 9.22a.75.75 0 1 0-1.06 1.06L13.19 12l-1.72 1.72a.75.75 0 1 0 1.06 1.06l1.72-1.72 1.72 1.72a.75.75 0 1 0 1.06-1.06L15.31 12l1.72-1.72a.75.75 0 1 0-1.06-1.06l-1.72 1.72-1.72-1.72Z"
+                clip-rule="evenodd"
+              />
+            </svg>
+          </button>
+          <button
+            id=""
+            class="bg-white/20 rounded-full h-16 w-16 flex justify-center items-center active:bg-white/30"
+          >
+            0
+          </button>
+          <button
+            id=""
+            class="rounded-full h-16 w-16 flex justify-center items-center active:bg-white/30 opacity-50"
+          >
+            OK
+          </button>
+        </div>
+      </div>
+    </div>
+    <script src="main.js"></script>
+    <script src="security.js"></script>
+  </body>
+</html>
