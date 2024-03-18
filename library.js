@@ -18,7 +18,7 @@ window.onload = function () {
     content.append(button)
 
     button.onclick = e => {
-      window.location.href = '/'
+      window.location.href = window.location.href.replace('library.html')
       localStorage.setItem('bookPath', book.bookPath)
       localStorage.setItem('bookName', book.name)
     }
