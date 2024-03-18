@@ -22,7 +22,7 @@
     >
       <div></div>
       <div class="grid grid-cols-[1fr_auto_1fr] items-end z-10 bg-[#181a1b]">
-        <div class="flex justify-start pb-4">
+        <a class="flex justify-start pb-4" href="/library.html">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -37,7 +37,7 @@
               d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25"
             />
           </svg>
-        </div>
+        </a>
         <div class="pb-4">Things to ones self</div>
         <div class="flex justify-end pb-4">
           <span id="page-number"> 0 </span>
@@ -45,9 +45,10 @@
       </div>
       <div></div>
       <div></div>
-      <div id="area" class="h-[calc(100svh-4rem-1rem)] overflow-hidden">
+      <div id="area" class="h-[calc(100svh-4rem-1rem)] overflow-hidden relative">
         <div id="links"></div>
         <div id="content" class=""></div>
+        <div id="cover" class="absolute left-0 right-0 bottom-0 h-0 bg-[#181a1b]"></div>
       </div>
       <div></div>
     </div>
@@ -144,8 +145,9 @@
         </div>
       </div>
     </div>
-    <script src="main.js"></script>
     <script src="security.js"></script>
+    <script src="util.js"></script>
+    <script src="main.js"></script>
     <script src="service-worker.js"></script>
   </body>
 </html>

@@ -548,6 +548,10 @@ video {
   position: absolute;
 }
 
+.relative {
+  position: relative;
+}
+
 .bottom-0 {
   bottom: 0px;
 }
@@ -588,6 +592,10 @@ video {
   margin-top: 1.5rem;
 }
 
+.mt-7 {
+  margin-top: 1.75rem;
+}
+
 .flex {
   display: flex;
 }
@@ -620,6 +628,14 @@ video {
   height: 100svh;
 }
 
+.h-28 {
+  height: 7rem;
+}
+
+.h-0 {
+  height: 0px;
+}
+
 .w-16 {
   width: 4rem;
 }
@@ -634,6 +650,10 @@ video {
 
 .w-dvw {
   width: 100dvw;
+}
+
+.grid-cols-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .grid-cols-3 {
@@ -678,6 +698,10 @@ video {
 
 .justify-center {
   justify-content: center;
+}
+
+.gap-5 {
+  gap: 1.25rem;
 }
 
 .gap-x-6 {
