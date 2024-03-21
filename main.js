@@ -81,9 +81,13 @@ async function setIndexPage(id) {
   render()
 }
 
-function render() {
+async function render() {
+  console.clear()
+
+  content.style.opacity = '0'
   translateContent()
 
+  await new Promise(r => setTimeout(r, 100))
   const areaRect = area.getBoundingClientRect()
 
   // Usage:
@@ -94,35 +98,87 @@ function render() {
   while (i < topElements.length && !found) {
     const topElement = topElements[i]
     i++
+    if (topElement.innerText === '') continue
 
     if (isOutTop(topElement)) {
+      let toGoDown = 0
       let innerElements = [...topElement.children]
-      const elementRect = topElement.getBoundingClientRect()
-      let lineHeight = getLineHeight(topElement)
+      for (let i = 0; i < innerElements.length; i++) {
+        const el = innerElements[i]
+        innerElements = [...innerElements, ...el.children]
 
-      //Element bottom - Area top
-      const visibleHeight = elementRect.bottom - areaRect.top
-      const possibleLines = Math.ceil(visibleHeight / lineHeight)
+        if (el.innerText === '') continue
 
-      let wantedHeight = possibleLines * lineHeight
-      wantedHeight = wantedHeight > elementRect.height ? elementRect.height : wantedHeight
-      const toGoUp = wantedHeight - visibleHeight
-      translateY += toGoUp
+        const elBottom = el.getBoundingClientRect().bottom
+        if (elBottom <= areaRect.top) continue
+
+        let lh = round(getLineHeight(el))
+
+        const visibleElementHeight = elBottom - areaRect.top
+
+        const lineOut = !isWholeNumber(round(visibleElementHeight / lh))
+
+        if (!lineOut) {
+          continue
+        }
+
+        const possibleLines = Math.ceil(visibleElementHeight / lh)
+        const wantedHeight = possibleLines * lh
+        const padding = getPaddingAndMargin(el)
+
+        const localToGoDown = wantedHeight - visibleElementHeight + padding
+
+        if (localToGoDown > toGoDown) {
+          decorate(el)
+          toGoDown = localToGoDown
+        }
+      }
+      translateY += toGoDown
       translateContent()
     } else if (isOutBottom(topElement)) {
+      decorate(topElement)
+
       const elementRect = topElement.getBoundingClientRect()
       let lineHeight = getLineHeight(topElement)
+      let padding = 0
 
+      let innerElements = [...topElement.children]
+      for (let i = 0; i < innerElements.length; i++) {
+        const el = innerElements[i]
+        const elTop = el.getBoundingClientRect().top
+        if (elTop >= areaRect.bottom) continue
+
+        let lh = getLineHeight(el)
+
+        const visibleElementHeight = areaRect.bottom - elTop
+
+        if (visibleElementHeight / lh < 1 && el.innerText !== '') {
+          decorate(el)
+          lineHeight = lh
+          padding = getPaddingAndMargin(el)
+        }
+        innerElements = [...innerElements, ...el.children]
+      }
+
+      debugger
       //Area bottom - Element top
       const visibleHeight = areaRect.bottom - elementRect.top
-      const possibleLines = Math.floor(visibleHeight / lineHeight)
+      const possibleLines = Math.floor((visibleHeight - padding) / lineHeight)
 
       const wantedHeight = possibleLines * lineHeight
       const coverUp = visibleHeight - wantedHeight
       cover.style.height = `${coverUp}px`
       found = true
+
+      console.log('down:')
+      console.log('visibleHeight', visibleHeight)
+      console.log('possibleLines', possibleLines)
+      console.log('wantedHeight', wantedHeight)
+      console.log('lineHeight', lineHeight)
+      console.log('coverUp', coverUp)
     }
   }
+  content.style.opacity = '1'
 }
 
 function translateContent() {
@@ -145,7 +201,6 @@ function nextPage(e) {
   }
 
   translateY -= areaRect
-  translateContent()
   render()
 }
 
@@ -158,7 +213,9 @@ async function previousPage(e) {
 
   if (-translateY <= 0) {
     translateY = 0
-    setIndexPage(indexPage - 1)
+    await setIndexPage(indexPage - 1)
+    translateY = -(content.getBoundingClientRect().height - areaRect)
+    translateContent()
     return
   }
 
@@ -171,12 +228,21 @@ async function previousPage(e) {
 fetchIndex().then(async p => {
   const index = parseInt(localStorage.getItem(`${bookPath}/indexPage`))
   page = parseInt(localStorage.getItem(`${bookPath}/page`))
-  page = isNaN(page) || page < 0 ? 0 : page
+  page = isNaN(page) || page < 1 ? 1 : page
 
   pageNumber.innerText = `${page}`
 
   const localTranslateY = parseFloat(localStorage.getItem(`${bookPath}/translateY`))
   translateY = isNaN(localTranslateY) || index === 0 ? 0 : localTranslateY
 
+  let bookName = localStorage.getItem('bookName')
+  bookName = bookName === null ? '' : bookName
+  document.getElementById('bookName').innerText = bookName
   await setIndexPage(isNaN(index) || index < 0 ? 0 : index)
 })
+
+function decorate(element) {
+  /*try {
+    element.style.outline = '2px red dotted'
+  } catch (error) {}*/
+}

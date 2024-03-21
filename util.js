@@ -44,3 +44,37 @@ function deleteLastWord(element, str) {
 function remToPx(rem) {
   return rem * parseFloat(getComputedStyle(document.documentElement).fontSize)
 }
+
+function getPaddingAndMargin(element) {
+  try {
+    // Get the computed style of the element
+    let style = window.getComputedStyle(element)
+
+    // Get individual padding values
+    let paddingTop = style.getPropertyValue('padding-top')
+    let paddingBottom = style.getPropertyValue('padding-bottom')
+
+    // Get individual margin values
+    let marginTop = style.getPropertyValue('margin-top')
+    let marginBottom = style.getPropertyValue('margin-bottom')
+
+    // Parse the values as floats to get numerical values
+    let paddingTopValue = parseFloat(paddingTop)
+    let paddingBottomValue = parseFloat(paddingBottom)
+
+    let marginTopValue = parseFloat(marginTop)
+    let marginBottomValue = parseFloat(marginBottom)
+
+    return paddingTopValue + paddingBottomValue + marginTopValue + marginBottomValue
+  } catch (error) {
+    return 0
+  }
+}
+
+function round(num) {
+  return Math.round(num * 10) / 10
+}
+
+function isWholeNumber(num) {
+  return num % 1 === 0
+}
