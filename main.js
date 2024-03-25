@@ -45,7 +45,7 @@ async function fetchIndex() {
 }
 
 async function setIndexPage(id) {
-  if (id < 0) return
+  if (id < 0) throw Error('under 0')
 
   indexPage = id
   localStorage.setItem(`${bookPath}/indexPage`, `${indexPage}`)
@@ -83,6 +83,7 @@ async function setIndexPage(id) {
 
 async function render() {
   console.clear()
+  cover.style.height = `0px`
 
   content.style.opacity = '0'
   translateContent()
@@ -98,38 +99,45 @@ async function render() {
   while (i < topElements.length && !found) {
     const topElement = topElements[i]
     i++
-    if (topElement.innerText === '') continue
 
     if (isOutTop(topElement)) {
       let toGoDown = 0
-      let innerElements = [...topElement.children]
+      let innerElements = [topElement]
       for (let i = 0; i < innerElements.length; i++) {
-        const el = innerElements[i]
-        innerElements = [...innerElements, ...el.children]
+        const innerElement = innerElements[i]
+        innerElements = [...innerElements, ...innerElement.children]
 
-        if (el.innerText === '') continue
+        if (innerElement.innerText === '') {
+          const elementRectangle = innerElement.getBoundingClientRect()
+          if (elementRectangle.height > 0) {
+            toGoDown = areaRect.top - elementRectangle.top
+          }
+          continue
+        }
 
-        const elBottom = el.getBoundingClientRect().bottom
+        if (!hasDirectText(innerElement)) continue
+
+        const elBottom = innerElement.getBoundingClientRect().bottom
         if (elBottom <= areaRect.top) continue
 
-        let lh = round(getLineHeight(el))
+        let lineHight = round(getLineHeight(innerElement))
 
-        const visibleElementHeight = elBottom - areaRect.top
-
-        const lineOut = !isWholeNumber(round(visibleElementHeight / lh))
+        const visibleElementHeight = getVisibleHeight(innerElement, area)
+        const lineOut = !isWholeNumber(round(visibleElementHeight / lineHight))
 
         if (!lineOut) {
           continue
         }
 
-        const possibleLines = Math.ceil(visibleElementHeight / lh)
-        const wantedHeight = possibleLines * lh
-        const padding = getPaddingAndMargin(el)
+        //        addMarker(elBottom, 'element bottom')
 
-        const localToGoDown = wantedHeight - visibleElementHeight + padding
+        const possibleLines = Math.ceil(visibleElementHeight / lineHight)
+        const wantedHeight = possibleLines * lineHight
+
+        const localToGoDown = wantedHeight - visibleElementHeight
 
         if (localToGoDown > toGoDown) {
-          decorate(el)
+          decorate(innerElement)
           toGoDown = localToGoDown
         }
       }
@@ -138,44 +146,51 @@ async function render() {
     } else if (isOutBottom(topElement)) {
       decorate(topElement)
 
-      const elementRect = topElement.getBoundingClientRect()
-      let lineHeight = getLineHeight(topElement)
-      let padding = 0
+      let topViablePoint = -1
 
-      let innerElements = [...topElement.children]
+      let innerElements = [topElement]
       for (let i = 0; i < innerElements.length; i++) {
-        const el = innerElements[i]
-        const elTop = el.getBoundingClientRect().top
-        if (elTop >= areaRect.bottom) continue
+        const innerElement = innerElements[i]
 
-        let lh = getLineHeight(el)
-
-        const visibleElementHeight = areaRect.bottom - elTop
-
-        if (visibleElementHeight / lh < 1 && el.innerText !== '') {
-          decorate(el)
-          lineHeight = lh
-          padding = getPaddingAndMargin(el)
+        if (innerElement.innerText === '') {
+          const elementRectangle = innerElement.getBoundingClientRect()
+          if (elementRectangle.height > 0 && elementRectangle.top > topViablePoint) {
+            topViablePoint = elementRectangle.top
+          }
+          continue
         }
-        innerElements = [...innerElements, ...el.children]
+
+        innerElements = [...innerElements, ...innerElement.children]
+        if (!hasDirectText(innerElement)) continue
+
+        const elementRectangle = innerElement.getBoundingClientRect()
+        if (elementRectangle.top >= areaRect.bottom) continue
+
+        let elementLineHeight = getLineHeight(innerElement)
+
+        const visibleElementHeight = getVisibleHeight(innerElement, area)
+
+        if (
+          visibleElementHeight / elementLineHeight < 0.9 &&
+          innerElement.innerText !== '' &&
+          elementRectangle.bottom > areaRect.bottom
+        ) {
+          decorate(innerElement)
+
+          if (topViablePoint > elementRectangle.top || topViablePoint === -1)
+            topViablePoint = elementRectangle.top + -3
+        } else {
+          const possibleLines = Math.floor(visibleElementHeight / elementLineHeight + 0.1)
+          const wantedHeight = possibleLines * elementLineHeight
+
+          const cutLine = elementRectangle.top + wantedHeight
+
+          if (cutLine > topViablePoint) topViablePoint = cutLine
+        }
       }
-
-      debugger
-      //Area bottom - Element top
-      const visibleHeight = areaRect.bottom - elementRect.top
-      const possibleLines = Math.floor((visibleHeight - padding) / lineHeight)
-
-      const wantedHeight = possibleLines * lineHeight
-      const coverUp = visibleHeight - wantedHeight
-      cover.style.height = `${coverUp}px`
+      if (topViablePoint === -1) cover.style.height = `2px`
+      else cover.style.height = `${areaRect.bottom - topViablePoint + 2}px`
       found = true
-
-      console.log('down:')
-      console.log('visibleHeight', visibleHeight)
-      console.log('possibleLines', possibleLines)
-      console.log('wantedHeight', wantedHeight)
-      console.log('lineHeight', lineHeight)
-      console.log('coverUp', coverUp)
     }
   }
   content.style.opacity = '1'
@@ -213,9 +228,11 @@ async function previousPage(e) {
 
   if (-translateY <= 0) {
     translateY = 0
-    await setIndexPage(indexPage - 1)
-    translateY = -(content.getBoundingClientRect().height - areaRect)
-    translateContent()
+    try {
+      await setIndexPage(indexPage - 1)
+      translateY = -(content.getBoundingClientRect().height - areaRect)
+      translateContent()
+    } catch (error) {}
     return
   }
 
@@ -232,8 +249,8 @@ fetchIndex().then(async p => {
 
   pageNumber.innerText = `${page}`
 
-  const localTranslateY = parseFloat(localStorage.getItem(`${bookPath}/translateY`))
-  translateY = isNaN(localTranslateY) || index === 0 ? 0 : localTranslateY
+  translateY = parseFloat(localStorage.getItem(`${bookPath}/translateY`))
+  translateY = isNaN(translateY) ? 0 : translateY
 
   let bookName = localStorage.getItem('bookName')
   bookName = bookName === null ? '' : bookName
@@ -245,4 +262,33 @@ function decorate(element) {
   /*try {
     element.style.outline = '2px red dotted'
   } catch (error) {}*/
+}
+
+pageNumber.addEventListener('mousedown', async () => {
+  // Start the timer
+  page = 1
+  localStorage.setItem(`${bookPath}/page`, `${1}`)
+  pageNumber.innerText = `${1}`
+  translateY = 0
+  cover.style.height = `0px`
+
+  await setIndexPage(0)
+})
+
+function addMarker(position, text) {
+  const marker = document.createElement('div')
+  marker.classList.add(
+    'absolute',
+    'left-1',
+    'right-1',
+    'border-t-2',
+    'border-red',
+    'text-white',
+    'border-dashed'
+  )
+  marker.style.top = `${position}px`
+
+  marker.innerHTML = `<span class="bg-black">${text}</span>`
+
+  document.body.append(marker)
 }

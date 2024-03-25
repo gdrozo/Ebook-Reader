@@ -5,6 +5,7 @@ window.onload = function () {
   books.forEach(book => {
     const html = `
         <img
+            class=""
             src="${book.cover}"
             class="rounded-md"
             alt=""

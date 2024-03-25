@@ -34,9 +34,9 @@ function isOutBottom(element) {
 }
 
 function deleteLastWord(element, str) {
-  var words = str.split(' ') // Split the string into an array of words
+  let words = str.split(' ') // Split the string into an array of words
   words.pop() // Remove the last word
-  var newStr = words.join(' ') // Join the array back into a string
+  let newStr = words.join(' ') // Join the array back into a string
   element.innerHTML = newStr
   return newStr
 }
@@ -54,18 +54,43 @@ function getPaddingAndMargin(element) {
     let paddingTop = style.getPropertyValue('padding-top')
     let paddingBottom = style.getPropertyValue('padding-bottom')
 
-    // Get individual margin values
-    let marginTop = style.getPropertyValue('margin-top')
-    let marginBottom = style.getPropertyValue('margin-bottom')
-
     // Parse the values as floats to get numerical values
     let paddingTopValue = parseFloat(paddingTop)
     let paddingBottomValue = parseFloat(paddingBottom)
 
-    let marginTopValue = parseFloat(marginTop)
-    let marginBottomValue = parseFloat(marginBottom)
+    return paddingTopValue + paddingBottomValue
+  } catch (error) {
+    return 0
+  }
+}
+function getTopPadding(element) {
+  try {
+    // Get the computed style of the element
+    let style = window.getComputedStyle(element)
 
-    return paddingTopValue + paddingBottomValue + marginTopValue + marginBottomValue
+    // Get individual padding values
+    let paddingTop = style.getPropertyValue('padding-top')
+
+    // Parse the values as floats to get numerical values
+    let paddingTopValue = parseFloat(paddingTop)
+
+    return paddingTopValue
+  } catch (error) {
+    return 0
+  }
+}
+function getBottomPadding(element) {
+  try {
+    // Get the computed style of the element
+    let style = window.getComputedStyle(element)
+
+    // Get individual padding values
+    let paddingBottom = style.getPropertyValue('padding-bottom')
+
+    // Parse the values as floats to get numerical values
+    let paddingBottomValue = parseFloat(paddingBottom)
+
+    return paddingBottomValue
   } catch (error) {
     return 0
   }
@@ -77,4 +102,46 @@ function round(num) {
 
 function isWholeNumber(num) {
   return num % 1 === 0
+}
+
+function hasDirectText(element) {
+  return Array.from(element.childNodes).some(
+    node => node.nodeType === Node.TEXT_NODE && node.nodeValue.trim() !== ''
+  )
+}
+
+function getVisibleHeight(element, container) {
+  let style = window.getComputedStyle(element)
+  let paddingTop = parseFloat(style.paddingTop)
+  let paddingBottom = parseFloat(style.paddingBottom)
+
+  let containerRect = container.getBoundingClientRect()
+  let rect = element.getBoundingClientRect()
+  let visibleHeight = rect.height
+
+  // Subtract the top padding if the top of the element is visible
+  if (rect.top >= 0) {
+    visibleHeight -= paddingTop
+  }
+
+  // Subtract the bottom padding if the bottom of the element is visible
+  if (rect.bottom <= containerRect.height) {
+    visibleHeight -= paddingBottom
+  }
+
+  // Adjust for partial visibility
+  if (rect.top < 0) {
+    visibleHeight += Math.min(paddingTop, -rect.top)
+  }
+  if (rect.bottom > containerRect.height) {
+    visibleHeight += Math.min(paddingBottom, rect.bottom - containerRect.height)
+  }
+
+  if (rect.top < containerRect.top) {
+    visibleHeight -= containerRect.top - rect.top
+  }
+  if (rect.bottom > containerRect.bottom) {
+    visibleHeight -= rect.bottom - containerRect.bottom
+  }
+  return visibleHeight
 }
