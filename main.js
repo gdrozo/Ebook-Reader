@@ -82,7 +82,6 @@ async function setIndexPage(id) {
 }
 
 async function render() {
-  console.clear()
   cover.style.height = `0px`
 
   content.style.opacity = '0'
@@ -292,3 +291,28 @@ function addMarker(position, text) {
 
   document.body.append(marker)
 }
+
+async function screenLock() {
+  // Check if the Wake Lock API is supported
+  if ('wakeLock' in navigator) {
+    let wakeLock = null
+
+    // Request a screen wake lock
+    const requestWakeLock = async () => {
+      try {
+        wakeLock = await navigator.wakeLock.request('screen')
+        console.log('Screen Wake Lock is active')
+      } catch (err) {
+        alert(`no sreen lock: ${err}`)
+        console.error(err)
+      }
+    }
+
+    // Call the function to request the wake lock
+    await requestWakeLock()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  screenLock()
+})
