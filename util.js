@@ -1,10 +1,14 @@
 async function fetchAndReadFile(filePath) {
   try {
-    const response = await fetch(`${bookPath}\\${filePath}`)
-    if (!response.ok) {
-      throw new Error('Network response was not ok.')
+    let text = localStorage.getItem(`${bookPath}\\${filePath}`)
+    if (text === null) {
+      const response = await fetch(`${bookPath}\\${filePath}`)
+      if (!response.ok) {
+        throw new Error('Network response was not ok.')
+      }
+      text = await response.text()
+      localStorage.setItem(`${bookPath}\\${filePath}`, `${text}`)
     }
-    const text = await response.text()
     return text
   } catch (error) {
     console.error('There has been a problem with your fetch operation:', error)
@@ -144,4 +148,66 @@ function getVisibleHeight(element, container) {
     visibleHeight -= rect.bottom - containerRect.bottom
   }
   return visibleHeight
+}
+
+async function screenLock() {
+  // Check if the Wake Lock API is supported
+  if ('wakeLock' in navigator) {
+    let wakeLock = null
+
+    // Request a screen wake lock
+    const requestWakeLock = async () => {
+      try {
+        wakeLock = await navigator.wakeLock.request('screen')
+        console.log('Screen Wake Lock is active')
+      } catch (err) {
+        //alert(`no sreen lock: ${err}`)
+        console.log(err)
+      }
+    }
+
+    // Call the function to request the wake lock
+    await requestWakeLock()
+  }
+}
+
+async function syncPages(pages) {
+  if (navigator.serviceWorker.controller) {
+    const cleanPages = []
+
+    pages.forEach(page => {
+      if (checkPage(page[1])) cleanPages.push(`${bookPath}\\${page[1]}`)
+    })
+
+    navigator.serviceWorker.controller.postMessage({ type: 'fetch', files: cleanPages })
+  } else console.log('no service worker')
+
+  function checkPage(file) {
+    const result = localStorage.getItem(`${bookPath}\\${file}`)
+    return result === null
+  }
+}
+
+function addMarker(position, text) {
+  const marker = document.createElement('div')
+  marker.classList.add(
+    'absolute',
+    'left-1',
+    'right-1',
+    'border-t-2',
+    'border-red',
+    'text-white',
+    'border-dashed'
+  )
+  marker.style.top = `${position}px`
+
+  marker.innerHTML = `<span class="bg-black">${text}</span>`
+
+  document.body.append(marker)
+}
+
+function decorate(element) {
+  /*try {
+    element.style.outline = '2px red dotted'
+  } catch (error) {}*/
 }

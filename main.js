@@ -241,7 +241,12 @@ async function previousPage(e) {
 }
 
 //Start of the app
-fetchIndex().then(async p => {
+fetchIndex().then(async pages => {
+  if (navigator.serviceWorker && navigator.serviceWorker.ready)
+    navigator.serviceWorker.ready.then(function (swRegistration) {
+      syncPages(pages)
+    })
+
   const index = parseInt(localStorage.getItem(`${bookPath}/indexPage`))
   page = parseInt(localStorage.getItem(`${bookPath}/page`))
   page = isNaN(page) || page < 1 ? 1 : page
@@ -257,62 +262,35 @@ fetchIndex().then(async p => {
   await setIndexPage(isNaN(index) || index < 0 ? 0 : index)
 })
 
-function decorate(element) {
-  /*try {
-    element.style.outline = '2px red dotted'
-  } catch (error) {}*/
-}
+document.addEventListener('DOMContentLoaded', () => {
+  if (navigator.serviceWorker)
+    navigator.serviceWorker.onmessage = event => {
+      const file = event.data.file
+      const data = event.data.data
+      localStorage.setItem(`${file}`, `${data}`)
+    }
+
+  screenLock()
+})
 
 pageNumber.addEventListener('mousedown', async () => {
   // Start the timer
+
+  if (navigator.serviceWorker && navigator.serviceWorker.controller) {
+    try {
+      navigator.serviceWorker.controller.postMessage({ type: 'clear' })
+      alert(`message of clear cache`)
+    } catch (error) {
+      alert(`no service worker: ${error}`)
+    }
+  } else alert('no service worker')
+
   page = 1
   localStorage.setItem(`${bookPath}/page`, `${1}`)
   pageNumber.innerText = `${1}`
   translateY = 0
   cover.style.height = `0px`
+  translateContent()
 
   await setIndexPage(0)
-})
-
-function addMarker(position, text) {
-  const marker = document.createElement('div')
-  marker.classList.add(
-    'absolute',
-    'left-1',
-    'right-1',
-    'border-t-2',
-    'border-red',
-    'text-white',
-    'border-dashed'
-  )
-  marker.style.top = `${position}px`
-
-  marker.innerHTML = `<span class="bg-black">${text}</span>`
-
-  document.body.append(marker)
-}
-
-async function screenLock() {
-  // Check if the Wake Lock API is supported
-  if ('wakeLock' in navigator) {
-    let wakeLock = null
-
-    // Request a screen wake lock
-    const requestWakeLock = async () => {
-      try {
-        wakeLock = await navigator.wakeLock.request('screen')
-        console.log('Screen Wake Lock is active')
-      } catch (err) {
-        alert(`no sreen lock: ${err}`)
-        console.error(err)
-      }
-    }
-
-    // Call the function to request the wake lock
-    await requestWakeLock()
-  }
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-  screenLock()
 })
