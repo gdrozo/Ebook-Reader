@@ -47,7 +47,7 @@ self.addEventListener('message', event => {
 
 // In your service-worker.js
 const CACHE_NAME = 'cache'
-const urlsToCache = [
+/*const urlsToCache = [
   '/Ebook-Reader/',
   '/Ebook-Reader/index.html',
   '/Ebook-Reader/library.html',
@@ -60,6 +60,21 @@ const urlsToCache = [
   '/Ebook-Reader/service-worker.js',
   '/Ebook-Reader/service-worker-registrator.js',
   '/Ebook-Reader/image/favicon.png',
+]*/
+
+const urlsToCache = [
+  '/',
+  '/index.html',
+  '/library.html',
+  '/books.js',
+  '/library.js',
+  '/security.js',
+  '/util.js',
+  '/main.js',
+  '/tailwind_output.css',
+  '/service-worker.js',
+  '/service-worker-registrator.js',
+  '/image/favicon.png',
 ]
 
 self.addEventListener('install', event => {

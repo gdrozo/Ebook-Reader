@@ -219,23 +219,26 @@ function nextPage(e) {
 }
 
 async function previousPage(e) {
+  cover.style.height = `0px`
   page = page <= 1 ? 1 : page - 1
   localStorage.setItem(`${bookPath}/page`, `${page}`)
   pageNumber.innerText = `${page}`
 
   const areaRect = area.getBoundingClientRect().height
+  const coverHeight = parseFloat(cover.style.height.replace('px', ''))
 
   if (-translateY <= 0) {
     translateY = 0
     try {
       await setIndexPage(indexPage - 1)
-      translateY = -(content.getBoundingClientRect().height - areaRect)
+
+      translateY = -(content.getBoundingClientRect().height - areaRect + coverHeight)
       translateContent()
     } catch (error) {}
     return
   }
 
-  translateY += areaRect
+  translateY += areaRect + coverHeight
   translateContent()
   render()
 }
