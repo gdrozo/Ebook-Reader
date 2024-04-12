@@ -84,7 +84,7 @@ async function setIndexPage(id) {
 async function render() {
   cover.style.height = `0px`
 
-  //content.style.opacity = '0'
+  content.style.opacity = '0'
   translateContent()
 
   await new Promise(r => setTimeout(r, 100))
