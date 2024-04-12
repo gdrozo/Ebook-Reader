@@ -89,28 +89,49 @@ self.addEventListener('install', event => {
 })
 
 self.addEventListener('fetch', event => {
-  event.respondWith(
-    fetch(event.request)
-      .then(response => {
-        if (!response || response.status !== 200 || response.type !== 'basic') {
+  // Check if the request is for a JavaScript file
+  if (!event.request.url.endsWith('.js')) {
+    // Try to fetch from the cache first
+    event.respondWith(
+      caches.match(event.request).then(response => {
+        // If it's in the cache, return the cached response
+        if (response) {
           return response
         }
-
-        let responseToCache = response.clone()
-
-        caches.open(CACHE_NAME).then(cache => {
-          cache.put(event.request, responseToCache)
+        // If not in the cache, fetch from the network
+        return fetch(event.request).then(networkResponse => {
+          // Cache the new response for future requests
+          let responseToCache = networkResponse.clone()
+          caches.open(CACHE_NAME).then(cache => {
+            cache.put(event.request, responseToCache)
+          })
+          return networkResponse
         })
-
-        return response
       })
-      .catch(async () => {
-        return caches.match(event.request).then(response => {
-          if (response) {
+    )
+  } else {
+    // For JavaScript files, fetch from the network first
+    event.respondWith(
+      fetch(event.request)
+        .then(response => {
+          // Only cache successful basic responses
+          if (!response || response.status !== 200 || response.type !== 'basic') {
             return response
           }
-          // Optionally, provide a fallback response here if both the network and cache fail
+          let responseToCache = response.clone()
+          caches.open(CACHE_NAME).then(cache => {
+            cache.put(event.request, responseToCache)
+          })
+          return response
         })
-      })
-  )
+        .catch(async () => {
+          // If the network request fails, try to return the cached response
+          return caches.match(event.request).then(response => {
+            if (response) {
+              return response
+            }
+          })
+        })
+    )
+  }
 })

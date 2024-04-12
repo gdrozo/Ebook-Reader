@@ -793,6 +793,14 @@ video {
   opacity: 0.5;
 }
 
+.outline-dashed {
+  outline-style: dashed;
+}
+
+.outline-1 {
+  outline-width: 1px;
+}
+
 .active\:bg-white\/30:active {
   background-color: rgb(255 255 255 / 0.3);
 }

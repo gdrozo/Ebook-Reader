@@ -84,7 +84,7 @@ async function setIndexPage(id) {
 async function render() {
   cover.style.height = `0px`
 
-  content.style.opacity = '0'
+  //content.style.opacity = '0'
   translateContent()
 
   await new Promise(r => setTimeout(r, 100))
@@ -143,9 +143,10 @@ async function render() {
       translateY += toGoDown
       translateContent()
     } else if (isOutBottom(topElement)) {
+      debugger
       decorate(topElement)
 
-      let topViablePoint = -1
+      let bottomViablePoint = -1
 
       let innerElements = [topElement]
       for (let i = 0; i < innerElements.length; i++) {
@@ -153,8 +154,8 @@ async function render() {
 
         if (innerElement.innerText === '') {
           const elementRectangle = innerElement.getBoundingClientRect()
-          if (elementRectangle.height > 0 && elementRectangle.top > topViablePoint) {
-            topViablePoint = elementRectangle.top
+          if (elementRectangle.height > 0 && elementRectangle.top > bottomViablePoint) {
+            bottomViablePoint = elementRectangle.top
           }
           continue
         }
@@ -169,26 +170,32 @@ async function render() {
 
         const visibleElementHeight = getVisibleHeight(innerElement, area)
 
-        if (
-          visibleElementHeight / elementLineHeight < 0.9 &&
-          innerElement.innerText !== '' &&
-          elementRectangle.bottom > areaRect.bottom
-        ) {
+        if (elementRectangle.bottom < areaRect.bottom) {
+          bottomViablePoint = elementRectangle.bottom
+          continue
+        }
+
+        if (visibleElementHeight / elementLineHeight < 0.9 && innerElement.innerText !== '') {
           decorate(innerElement)
 
-          if (topViablePoint > elementRectangle.top || topViablePoint === -1)
-            topViablePoint = elementRectangle.top + -3
+          if (bottomViablePoint > elementRectangle.top || bottomViablePoint == -1)
+            bottomViablePoint = elementRectangle.top
         } else {
-          const possibleLines = Math.floor(visibleElementHeight / elementLineHeight + 0.1)
-          const wantedHeight = possibleLines * elementLineHeight
+          const possibleLines = Math.floor(visibleElementHeight / elementLineHeight)
 
-          const cutLine = elementRectangle.top + wantedHeight
+          for (let lines = possibleLines; possibleLines >= 0; possibleLines--) {
+            const wantedHeight = lines * elementLineHeight
+            const cutLine = elementRectangle.top + wantedHeight
 
-          if (cutLine > topViablePoint) topViablePoint = cutLine
+            if (cutLine < bottomViablePoint) {
+              bottomViablePoint = cutLine
+              break
+            }
+          }
         }
       }
-      if (topViablePoint === -1) cover.style.height = `2px`
-      else cover.style.height = `${areaRect.bottom - topViablePoint + 2}px`
+      if (bottomViablePoint === -1) cover.style.height = `0px`
+      else cover.style.height = `${areaRect.bottom - bottomViablePoint}px`
       found = true
     }
   }
