@@ -84,122 +84,209 @@ async function setIndexPage(id) {
 async function render() {
   cover.style.height = `0px`
 
-  content.style.opacity = '0'
+  //content.style.opacity = '0'
   translateContent()
 
-  await new Promise(r => setTimeout(r, 100))
-  const areaRect = area.getBoundingClientRect()
+  async function calculate() {
+    //await new Promise(r => setTimeout(r, 10))
+    const areaRect = area.getBoundingClientRect()
 
-  // Usage:
-  let topElements = [...content.children]
+    // Usage:
+    let topElements = [...content.children]
 
-  let found = false
-  let i = 0
-  while (i < topElements.length && !found) {
-    const topElement = topElements[i]
-    i++
+    let found = false
+    let i = 0
+    while (i < topElements.length && !found) {
+      const topElement = topElements[i]
+      i++
 
-    if (isOutTop(topElement)) {
-      let toGoDown = 0
-      let innerElements = [topElement]
-      for (let i = 0; i < innerElements.length; i++) {
-        const innerElement = innerElements[i]
-        innerElements = [...innerElements, ...innerElement.children]
+      if (isOutTop(topElement)) {
+        let toGoDown = 0
+        let innerElements = [topElement]
+        for (let i = 0; i < innerElements.length; i++) {
+          const innerElement = innerElements[i]
+          innerElements = [...innerElements, ...innerElement.children]
 
-        if (innerElement.innerText === '') {
-          const elementRectangle = innerElement.getBoundingClientRect()
-          if (elementRectangle.height > 0) {
-            toGoDown = areaRect.top - elementRectangle.top
+          if (innerElement.innerText === '') {
+            const elementRectangle = innerElement.getBoundingClientRect()
+            if (elementRectangle.height > 0) {
+              toGoDown = areaRect.top - elementRectangle.top
+            }
+            continue
           }
-          continue
-        }
 
-        if (!hasDirectText(innerElement)) continue
+          if (!hasDirectText(innerElement)) continue
 
-        const elBottom = innerElement.getBoundingClientRect().bottom
-        if (elBottom <= areaRect.top) continue
+          const elBottom = innerElement.getBoundingClientRect().bottom
+          if (elBottom <= areaRect.top) continue
 
-        let lineHight = round(getLineHeight(innerElement))
+          let lineHight = round(getLineHeight(innerElement))
 
-        const visibleElementHeight = getVisibleHeight(innerElement, area)
-        const lineOut = !isWholeNumber(round(visibleElementHeight / lineHight))
+          const visibleElementHeight = getVisibleHeight(innerElement, area)
+          const lineOut = !isWholeNumber(round(visibleElementHeight / lineHight))
 
-        if (!lineOut) {
-          continue
-        }
-
-        //        addMarker(elBottom, 'element bottom')
-
-        const possibleLines = Math.ceil(visibleElementHeight / lineHight)
-        const wantedHeight = possibleLines * lineHight
-
-        const localToGoDown = wantedHeight - visibleElementHeight
-
-        if (localToGoDown > toGoDown) {
-          decorate(innerElement)
-          toGoDown = localToGoDown
-        }
-      }
-      translateY += toGoDown
-      translateContent()
-    } else if (isOutBottom(topElement)) {
-      debugger
-      decorate(topElement)
-
-      let bottomViablePoint = -1
-
-      let innerElements = [topElement]
-      for (let i = 0; i < innerElements.length; i++) {
-        const innerElement = innerElements[i]
-
-        if (innerElement.innerText === '') {
-          const elementRectangle = innerElement.getBoundingClientRect()
-          if (elementRectangle.height > 0 && elementRectangle.top > bottomViablePoint) {
-            bottomViablePoint = elementRectangle.top
+          if (!lineOut) {
+            continue
           }
-          continue
+
+          //        addMarker(elBottom, 'element bottom')
+
+          const possibleLines = Math.ceil(visibleElementHeight / lineHight)
+          const wantedHeight = possibleLines * lineHight + getTopMargin(innerElement)
+
+          const localToGoDown = wantedHeight - visibleElementHeight
+
+          if (localToGoDown > toGoDown) {
+            decorate(innerElement)
+            toGoDown = localToGoDown
+          }
+        }
+        translateY += toGoDown
+        debugger
+        translateContent()
+      } else if (isOutBottom(topElement)) {
+        decorate(topElement)
+
+        let innerElements = [topElement]
+
+        let textElements = []
+
+        for (let i = 0; i < innerElements.length; i++) {
+          const innerElement = innerElements[i]
+
+          if (innerElement.innerText === '') {
+            const elementRectangle = innerElement.getBoundingClientRect()
+            if (
+              elementRectangle.height > 0 &&
+              elementRectangle.bottom > areaRect.bottom &&
+              elementRectangle.top < areaRect.bottom
+            ) {
+              debugger
+              cover.style.height = `${areaRect.bottom - topElement.getBoundingClientRect().top}px`
+
+              return
+            }
+            continue
+          }
+
+          innerElements = [...innerElements, ...innerElement.children]
+          if (!hasDirectText(innerElement)) continue
+
+          const elementRectangle = innerElement.getBoundingClientRect()
+
+          if (elementRectangle.top >= areaRect.bottom) continue
+
+          let elementLineHeight = getLineHeight(innerElement)
+
+          const visibleElementHeight = getVisibleHeight(innerElement, area)
+
+          if (
+            elementRectangle.bottom > areaRect.bottom &&
+            visibleElementHeight / elementLineHeight < 0.9 &&
+            innerElement.innerText !== ''
+          ) {
+            decorate(innerElement)
+
+            debugger
+            cover.style.height = `${areaRect.bottom - elementRectangle.top}px`
+
+            return
+          } else {
+            textElements.push({
+              top: elementRectangle.top,
+              bottom: elementRectangle.bottom,
+              lineHight: elementLineHeight,
+              text: innerElement.innerText,
+              index: textElements.length,
+            })
+          }
         }
 
-        innerElements = [...innerElements, ...innerElement.children]
-        if (!hasDirectText(innerElement)) continue
-
-        const elementRectangle = innerElement.getBoundingClientRect()
-        if (elementRectangle.top >= areaRect.bottom) continue
-
-        let elementLineHeight = getLineHeight(innerElement)
-
-        const visibleElementHeight = getVisibleHeight(innerElement, area)
-
-        if (elementRectangle.bottom < areaRect.bottom) {
-          bottomViablePoint = elementRectangle.bottom
-          continue
+        if (textElements.length === 0) {
+          return
         }
+        let firstElementOut = textElements[0]
 
-        if (visibleElementHeight / elementLineHeight < 0.9 && innerElement.innerText !== '') {
-          decorate(innerElement)
-
-          if (bottomViablePoint > elementRectangle.top || bottomViablePoint == -1)
-            bottomViablePoint = elementRectangle.top
-        } else {
-          const possibleLines = Math.floor(visibleElementHeight / elementLineHeight)
-
-          for (let lines = possibleLines; possibleLines >= 0; possibleLines--) {
-            const wantedHeight = lines * elementLineHeight
-            const cutLine = elementRectangle.top + wantedHeight
-
-            if (cutLine < bottomViablePoint) {
-              bottomViablePoint = cutLine
+        if (firstElementOut.bottom < areaRect.bottom) {
+          firstElementOut = null
+          for (let i = 1; i < textElements.length; i++) {
+            if (textElements[i] >= areaRect.bottom) {
+              firstElementOut = textElements[i]
               break
             }
           }
         }
+
+        if (firstElementOut === null) {
+          debugger
+          if (textElements.length > 0)
+            cover.style.height = `${areaRect.bottom - textElements[0].top}px`
+          else cover.style.height = `0px`
+        }
+
+        let line = firstElementOut.bottom
+        let valid = false
+        for (let j = 0; line >= firstElementOut.top; j++) {
+          line = firstElementOut.bottom - firstElementOut.lineHight * j
+          if (line > areaRect.bottom) continue
+
+          if (textElements.length === 1) {
+            debugger
+            cover.style.height = `${areaRect.bottom - line}px`
+            return
+          }
+
+          for (
+            let testElementIndex = 0;
+            testElementIndex < textElements.length;
+            testElementIndex++
+          ) {
+            if (testElementIndex === firstElementOut.index) continue
+
+            let testElement = textElements[testElementIndex]
+            let testLine = testElement.bottom
+
+            let isValid = false
+            const maxLoops = 100
+            if (line <= testElement.top || line >= testElement.bottom) {
+              isValid = true
+              valid = true
+              break
+            }
+
+            for (let i = 0; testLine >= testElement.top && i <= maxLoops; i++) {
+              testLine = testElement.bottom - testElement.lineHight * i
+              if (testLine <= line + 0.5 && testLine >= line - 0.5) {
+                isValid = true
+                break
+              }
+            }
+
+            if (!isValid) {
+              valid = false
+              break
+            }
+            valid = true
+          }
+
+          if (valid) {
+            debugger
+            cover.style.height = `${areaRect.bottom - line}px`
+
+            break
+          }
+        }
+
+        if (!valid) {
+          debugger
+          cover.style.height = `${areaRect.bottom - firstElementOut.top}px`
+        }
       }
-      if (bottomViablePoint === -1) cover.style.height = `0px`
-      else cover.style.height = `${areaRect.bottom - bottomViablePoint}px`
-      found = true
     }
+    content.style.opacity = '1'
   }
-  content.style.opacity = '1'
+
+  calculate()
 }
 
 function translateContent() {

@@ -83,6 +83,22 @@ function getTopPadding(element) {
     return 0
   }
 }
+function getTopMargin(element) {
+  try {
+    // Get the computed style of the element
+    let style = window.getComputedStyle(element)
+
+    // Get individual padding values
+    let paddingTop = style.getPropertyValue('margin-top')
+
+    // Parse the values as floats to get numerical values
+    let paddingTopValue = parseFloat(paddingTop)
+
+    return paddingTopValue
+  } catch (error) {
+    return 0
+  }
+}
 function getBottomPadding(element) {
   try {
     // Get the computed style of the element
