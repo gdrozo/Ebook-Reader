@@ -142,8 +142,8 @@ async function render() {
           }
         }
         translateY += toGoDown
-        debugger
         translateContent()
+        debugger
       } else if (isOutBottom(topElement)) {
         decorate(topElement)
 
@@ -188,7 +188,9 @@ async function render() {
             decorate(innerElement)
 
             debugger
-            cover.style.height = `${areaRect.bottom - elementRectangle.top}px`
+            cover.style.height = `${
+              areaRect.bottom - elementRectangle.top - getTopMargin(innerElement)
+            }px`
 
             return
           } else {
@@ -219,9 +221,8 @@ async function render() {
 
         if (firstElementOut === null) {
           debugger
-          if (textElements.length > 0)
-            cover.style.height = `${areaRect.bottom - textElements[0].top}px`
-          else cover.style.height = `0px`
+          cover.style.height = `0px`
+          return
         }
 
         let line = firstElementOut.bottom
@@ -356,7 +357,8 @@ fetchIndex().then(async pages => {
   let bookName = localStorage.getItem('bookName')
   bookName = bookName === null ? '' : bookName
   document.getElementById('bookName').innerText = bookName
-  await setIndexPage(isNaN(index) || index < 0 ? 0 : index)
+  setIndexPage(isNaN(index) || index < 0 ? 0 : index)
+  setTimeout(() => {}, 10)
 })
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -373,10 +375,10 @@ document.addEventListener('DOMContentLoaded', () => {
 pageNumber.addEventListener('mousedown', async () => {
   // Start the timer
 
+  alert(`${window.innerWidth}x${window.innerHeight}`)
   if (navigator.serviceWorker && navigator.serviceWorker.controller) {
     try {
       navigator.serviceWorker.controller.postMessage({ type: 'clear' })
-      alert(`message of clear cache`)
     } catch (error) {
       alert(`no service worker: ${error}`)
     }
