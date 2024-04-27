@@ -77,7 +77,6 @@ function getTopPadding(element) {
 
     // Parse the values as floats to get numerical values
     let paddingTopValue = parseFloat(paddingTop)
-
     return paddingTopValue
   } catch (error) {
     return 0
@@ -89,10 +88,15 @@ function getTopMargin(element) {
     let style = window.getComputedStyle(element)
 
     // Get individual padding values
-    let paddingTop = style.getPropertyValue('margin-top')
+    let paddingTop = style
+      .getPropertyValue('margin-top')
+      .replace('px', '')
+      .replace('rem', '')
+      .replace('em', '')
 
     // Parse the values as floats to get numerical values
     let paddingTopValue = parseFloat(paddingTop)
+    debugger
 
     return paddingTopValue
   } catch (error) {

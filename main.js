@@ -82,10 +82,11 @@ async function setIndexPage(id) {
 }
 
 async function render() {
+  nextButton.disabled = true
   cover.style.height = `0px`
 
-  //content.style.opacity = '0'
-  translateContent()
+  content.style.opacity = '0'
+  await translateContent()
 
   async function calculate() {
     //await new Promise(r => setTimeout(r, 10))
@@ -142,7 +143,7 @@ async function render() {
           }
         }
         translateY += toGoDown
-        translateContent()
+        await translateContent()
         debugger
       } else if (isOutBottom(topElement)) {
         decorate(topElement)
@@ -189,7 +190,7 @@ async function render() {
 
             debugger
             cover.style.height = `${
-              areaRect.bottom - elementRectangle.top - getTopMargin(innerElement)
+              areaRect.bottom - elementRectangle.top + getTopMargin(innerElement)
             }px`
 
             return
@@ -287,15 +288,26 @@ async function render() {
     content.style.opacity = '1'
   }
 
-  calculate()
+  await calculate()
+  nextButton.disabled = false
+  content.style.opacity = '1'
 }
 
-function translateContent() {
+async function translateContent() {
+  debugger
   content.style.transform = 'translateY(' + translateY + 'px)'
   localStorage.setItem(`${bookPath}/translateY`, translateY)
+
+  await new Promise(r =>
+    setTimeout(() => {
+      r()
+    }, 1)
+  )
 }
 
 function nextPage(e) {
+  nextButton.disabled = true
+
   page++
   localStorage.setItem(`${bookPath}/page`, `${page}`)
   pageNumber.innerText = `${page}`
@@ -311,6 +323,7 @@ function nextPage(e) {
 
   translateY -= areaRect
   render()
+  nextButton.disabled = false
 }
 
 async function previousPage(e) {
@@ -328,13 +341,13 @@ async function previousPage(e) {
       await setIndexPage(indexPage - 1)
 
       translateY = -(content.getBoundingClientRect().height - areaRect + coverHeight)
-      translateContent()
+      await translateContent()
     } catch (error) {}
     return
   }
 
   translateY += areaRect + coverHeight
-  translateContent()
+  await translateContent()
   render()
 }
 
@@ -389,7 +402,7 @@ pageNumber.addEventListener('mousedown', async () => {
   pageNumber.innerText = `${1}`
   translateY = 0
   cover.style.height = `0px`
-  translateContent()
+  await translateContent()
 
   await setIndexPage(0)
 })
