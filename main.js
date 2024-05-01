@@ -135,7 +135,9 @@ async function render() {
 
           const possibleLines = Math.ceil(visibleElementHeight / lineHight)
 
-          const visibleMargin = possibleLines <= 1 ? getTopMargin(innerElement) : 0
+          const elRectangle = innerElement.getBoundingClientRect()
+          const elementHeight = elRectangle.bottom - elRectangle.top
+          const visibleMargin = elementHeight / lineHight <= 1 ? getTopMargin(innerElement) : 0
 
           const wantedHeight = possibleLines * lineHight + visibleMargin
 
@@ -351,8 +353,8 @@ async function previousPage(e) {
     return
   }
 
-  translateY += areaRect + coverHeight
-  await translateContent()
+  translateY += areaRect - coverHeight
+
   render()
 }
 
