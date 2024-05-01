@@ -375,6 +375,8 @@ fetchIndex().then(async pages => {
   translateY = isNaN(translateY) ? 0 : translateY
 
   let bookName = localStorage.getItem('bookName')
+  if (bookName === null) window.location.href = '/library.html'
+
   bookName = bookName === null ? '' : bookName
   document.getElementById('bookName').innerText = bookName
   document.getElementsByTagName('title')[0].innerText = bookName
