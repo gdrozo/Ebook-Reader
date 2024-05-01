@@ -86,6 +86,7 @@ async function render() {
   cover.style.height = `0px`
 
   content.style.opacity = '0'
+
   await translateContent()
 
   async function calculate() {
@@ -133,7 +134,10 @@ async function render() {
           //        addMarker(elBottom, 'element bottom')
 
           const possibleLines = Math.ceil(visibleElementHeight / lineHight)
-          const wantedHeight = possibleLines * lineHight + getTopMargin(innerElement)
+
+          const visibleMargin = possibleLines <= 1 ? getTopMargin(innerElement) : 0
+
+          const wantedHeight = possibleLines * lineHight + visibleMargin
 
           const localToGoDown = wantedHeight - visibleElementHeight
 
@@ -305,7 +309,8 @@ async function translateContent() {
   )
 }
 
-function nextPage(e) {
+async function nextPage(e) {
+  debugger
   nextButton.disabled = true
 
   page++
@@ -322,7 +327,7 @@ function nextPage(e) {
   }
 
   translateY -= areaRect
-  render()
+  await render()
   nextButton.disabled = false
 }
 

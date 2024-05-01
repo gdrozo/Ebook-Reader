@@ -1,6 +1,9 @@
 window.onload = function () {
   // Your code here
 
+  const bookCount = document.getElementById('book-count')
+  bookCount.innerText = `${books.length}`
+
   const content = document.getElementById('content')
   books.forEach(book => {
     const html = `
