@@ -96,7 +96,6 @@ function getTopMargin(element) {
 
     // Parse the values as floats to get numerical values
     let paddingTopValue = parseFloat(paddingTop)
-    debugger
 
     return paddingTopValue
   } catch (error) {

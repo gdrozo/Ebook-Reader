@@ -78,11 +78,12 @@ async function setIndexPage(id) {
 
   content.innerHTML = body
 
-  render()
+  await render()
 }
 
 async function render() {
   nextButton.disabled = true
+  previousButton.disabled = true
   cover.style.height = `0px`
 
   content.style.opacity = '0'
@@ -149,8 +150,8 @@ async function render() {
           }
         }
         translateY += toGoDown
+
         await translateContent()
-        debugger
       } else if (isOutBottom(topElement)) {
         decorate(topElement)
 
@@ -168,7 +169,6 @@ async function render() {
               elementRectangle.bottom > areaRect.bottom &&
               elementRectangle.top < areaRect.bottom
             ) {
-              debugger
               cover.style.height = `${areaRect.bottom - topElement.getBoundingClientRect().top}px`
 
               return
@@ -194,7 +194,6 @@ async function render() {
           ) {
             decorate(innerElement)
 
-            debugger
             cover.style.height = `${
               areaRect.bottom - elementRectangle.top + getTopMargin(innerElement)
             }px`
@@ -227,7 +226,6 @@ async function render() {
         }
 
         if (firstElementOut === null) {
-          debugger
           cover.style.height = `0px`
           return
         }
@@ -239,7 +237,6 @@ async function render() {
           if (line > areaRect.bottom) continue
 
           if (textElements.length === 1) {
-            debugger
             cover.style.height = `${areaRect.bottom - line}px`
             return
           }
@@ -278,7 +275,6 @@ async function render() {
           }
 
           if (valid) {
-            debugger
             cover.style.height = `${areaRect.bottom - line}px`
 
             break
@@ -286,7 +282,6 @@ async function render() {
         }
 
         if (!valid) {
-          debugger
           cover.style.height = `${areaRect.bottom - firstElementOut.top}px`
         }
       }
@@ -296,11 +291,12 @@ async function render() {
 
   await calculate()
   nextButton.disabled = false
+  previousButton.disabled = false
+
   content.style.opacity = '1'
 }
 
 async function translateContent() {
-  debugger
   content.style.transform = 'translateY(' + translateY + 'px)'
   localStorage.setItem(`${bookPath}/translateY`, translateY)
 
@@ -312,7 +308,6 @@ async function translateContent() {
 }
 
 async function nextPage(e) {
-  debugger
   nextButton.disabled = true
 
   page++
@@ -325,37 +320,49 @@ async function nextPage(e) {
   if (contentRect <= -translateY + areaRect || contentRect <= areaRect) {
     translateY = 0
     setIndexPage(indexPage + 1)
+    nextButton.disabled = false
     return
   }
 
   translateY -= areaRect
+
   await render()
   nextButton.disabled = false
 }
 
 async function previousPage(e) {
+  previousButton.disabled = true
+
   cover.style.height = `0px`
   page = page <= 1 ? 1 : page - 1
   localStorage.setItem(`${bookPath}/page`, `${page}`)
   pageNumber.innerText = `${page}`
 
-  const areaRect = area.getBoundingClientRect().height
+  const areaHeight = area.getBoundingClientRect().height
   const coverHeight = parseFloat(cover.style.height.replace('px', ''))
 
   if (-translateY <= 0) {
     translateY = 0
     try {
       await setIndexPage(indexPage - 1)
+      cover.style.height = `0px`
 
-      translateY = -(content.getBoundingClientRect().height - areaRect + coverHeight)
+      translateY = -(content.getBoundingClientRect().height - areaHeight)
+      /*translateY = -(content.getBoundingClientRect().height - 20)
+       */
+      debugger
+      translateY = translateY > 0 ? 0 : translateY
       await translateContent()
     } catch (error) {}
+    previousButton.disabled = false
+
     return
   }
 
-  translateY += areaRect - coverHeight
+  translateY += areaHeight - coverHeight
 
-  render()
+  await render()
+  previousButton.disabled = false
 }
 
 //Start of the app
@@ -413,6 +420,7 @@ pageNumber.addEventListener('mousedown', async () => {
   pageNumber.innerText = `${1}`
   translateY = 0
   cover.style.height = `0px`
+
   await translateContent()
 
   await setIndexPage(0)
