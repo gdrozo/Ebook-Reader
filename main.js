@@ -377,6 +377,8 @@ fetchIndex().then(async pages => {
   let bookName = localStorage.getItem('bookName')
   bookName = bookName === null ? '' : bookName
   document.getElementById('bookName').innerText = bookName
+  document.getElementsByTagName('title')[0].innerText = bookName
+
   setIndexPage(isNaN(index) || index < 0 ? 0 : index)
   setTimeout(() => {}, 10)
 })
