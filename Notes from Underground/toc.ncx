@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='utf-8'?>
+<ncx xmlns="http://www.daisy.org/z3986/2005/ncx/" version="2005-1" xml:lang="en-US">
+  <head>
+    <meta content="a476f570-ce1e-42a2-8aa3-d73778d1bfbd" name="dtb:uid"/>
+    <meta content="2" name="dtb:depth"/>
+    <meta content="calibre (0.7.48)" name="dtb:generator"/>
+    <meta content="0" name="dtb:totalPageCount"/>
+    <meta content="0" name="dtb:maxPageNumber"/>
+  </head>
+  <docTitle>
+    <text>Notes from Underground [Transl. Pevear &amp; Volokhonsky]</text>
+  </docTitle>
+  <navMap>
+    <navPoint class="chapter" id="d811b151-0fa4-422c-8588-fd4fc19d135a" playOrder="1">
+      <navLabel>
+        <text>INTRODUCTION</text>
+      </navLabel>
+      <content src="Notes_from_Underground_Transl_P_split_002.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="be37ee8c-764b-466c-8acf-7376b4b53fb8" playOrder="2">
+      <navLabel>
+        <text>SELECT BIBLIOGRAPHY</text>
+      </navLabel>
+      <content src="Notes_from_Underground_Transl_P_split_003.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="43f049d2-a701-4451-bfe8-a503e9c6b021" playOrder="3">
+      <navLabel>
+        <text>PART ONE: UNDERGROUND</text>
+      </navLabel>
+      <content src="Notes_from_Underground_Transl_P_split_005.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="cbb5a106-5f5c-42c9-b311-cc988c4b07c7" playOrder="4">
+      <navLabel>
+        <text>PART TWO: APROPOS OF THE WET SNOW</text>
+      </navLabel>
+      <content src="Notes_from_Underground_Transl_P_split_006.html"/>
+    </navPoint>
+  </navMap>
+</ncx>

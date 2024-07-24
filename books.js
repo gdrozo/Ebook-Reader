@@ -9,4 +9,9 @@ const books = [
     cover: 'x232s\\cover.jpeg',
     bookPath: 'x232s',
   },
+  {
+    name: 'Notes from Underground',
+    cover: 'Notes from Underground\\cover.jpeg',
+    bookPath: 'Notes from Underground',
+  },
 ]
