@@ -113,6 +113,7 @@ async function render() {
           if (innerElement.innerText === '') {
             const elementRectangle = innerElement.getBoundingClientRect()
             if (elementRectangle.height > 0) {
+              debugger
               toGoDown = areaRect.top - elementRectangle.top
             }
             continue
@@ -120,12 +121,24 @@ async function render() {
 
           if (!hasDirectText(innerElement)) continue
 
-          const elBottom = innerElement.getBoundingClientRect().bottom
+          const elementRectangle = innerElement.getBoundingClientRect()
+          let elBottom =
+            Math.floor(
+              (elementRectangle.bottom - elementRectangle.top) / getLineHeight(innerElement)
+            ) *
+              getLineHeight(innerElement) +
+            elementRectangle.top
+
+          //const elBottom = innerElement.getBoundingClientRect().bottom
           if (elBottom <= areaRect.top) continue
 
           let lineHight = round(getLineHeight(innerElement))
 
-          const visibleElementHeight = getVisibleHeight(innerElement, area)
+          const visibleElementHeight = getVisibleHeight(
+            innerElement,
+            area,
+            elBottom - elementRectangle.top
+          )
           const lineOut = !isWholeNumber(round(visibleElementHeight / lineHight))
 
           if (!lineOut) {
@@ -146,6 +159,7 @@ async function render() {
 
           if (localToGoDown > toGoDown) {
             decorate(innerElement)
+            debugger
             toGoDown = localToGoDown
           }
         }
@@ -154,6 +168,7 @@ async function render() {
         await translateContent()
       } else if (isOutBottom(topElement)) {
         decorate(topElement)
+        debugger
 
         let innerElements = [topElement]
 
@@ -169,6 +184,7 @@ async function render() {
               elementRectangle.bottom > areaRect.bottom &&
               elementRectangle.top < areaRect.bottom
             ) {
+              debugger
               cover.style.height = `${areaRect.bottom - topElement.getBoundingClientRect().top}px`
 
               return
@@ -194,6 +210,7 @@ async function render() {
           ) {
             decorate(innerElement)
 
+            debugger
             cover.style.height = `${
               areaRect.bottom - elementRectangle.top + getTopMargin(innerElement)
             }px`
@@ -226,17 +243,30 @@ async function render() {
         }
 
         if (firstElementOut === null) {
+          debugger
           cover.style.height = `0px`
           return
         }
 
-        let line = firstElementOut.bottom
+        let h = firstElementOut.bottom - firstElementOut.top
+        let ph = h / firstElementOut.lineHight
+        let phf = Math.floor(ph)
+        let lh = phf * firstElementOut.lineHight
+        let rb = lh + firstElementOut.top
+
+        let realBottom =
+          Math.floor((firstElementOut.bottom - firstElementOut.top) / firstElementOut.lineHight) *
+            firstElementOut.lineHight +
+          firstElementOut.top
+
+        let line = realBottom
         let valid = false
         for (let j = 0; line >= firstElementOut.top; j++) {
-          line = firstElementOut.bottom - firstElementOut.lineHight * j
+          line = realBottom - firstElementOut.lineHight * j
           if (line > areaRect.bottom) continue
 
           if (textElements.length === 1) {
+            debugger
             cover.style.height = `${areaRect.bottom - line}px`
             return
           }
@@ -275,6 +305,7 @@ async function render() {
           }
 
           if (valid) {
+            debugger
             cover.style.height = `${areaRect.bottom - line}px`
 
             break
@@ -282,6 +313,7 @@ async function render() {
         }
 
         if (!valid) {
+          debugger
           cover.style.height = `${areaRect.bottom - firstElementOut.top}px`
         }
       }

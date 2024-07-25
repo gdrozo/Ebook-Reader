@@ -133,14 +133,14 @@ function hasDirectText(element) {
   )
 }
 
-function getVisibleHeight(element, container) {
+function getVisibleHeight(element, container, realHeight = null) {
   let style = window.getComputedStyle(element)
   let paddingTop = parseFloat(style.paddingTop)
   let paddingBottom = parseFloat(style.paddingBottom)
 
   let containerRect = container.getBoundingClientRect()
   let rect = element.getBoundingClientRect()
-  let visibleHeight = rect.height
+  let visibleHeight = realHeight === null ? rect.height : realHeight
 
   // Subtract the top padding if the top of the element is visible
   if (rect.top >= 0) {
