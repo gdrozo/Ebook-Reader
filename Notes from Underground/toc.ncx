@@ -8,22 +8,16 @@
     <meta name="dtb:maxPageNumber" content="0"/>
   </head>
   <docTitle>
-    <text>Notes from Underground [Transl. Pevear &amp; Volokhonsky]</text>
+    <text>Notes from Underground</text>
   </docTitle>
   <navMap>
     <navPoint id="num_1" playOrder="1">
-      <navLabel>
-        <text>INTRODUCTION</text>
-      </navLabel>
-      <content src="Notes_from_Underground_Transl_P_split_002.html"/>
-    </navPoint>
-    <navPoint id="num_2" playOrder="2">
       <navLabel>
         <text>PART ONE: UNDERGROUND</text>
       </navLabel>
       <content src="Notes_from_Underground_Transl_P_split_005.html"/>
     </navPoint>
-    <navPoint id="num_3" playOrder="3">
+    <navPoint id="num_2" playOrder="2">
       <navLabel>
         <text>PART TWO: APROPOS OF THE WET SNOW</text>
       </navLabel>

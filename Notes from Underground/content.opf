@@ -19,8 +19,6 @@
   </metadata>
   <manifest>
     <item href="titlepage.xhtml" id="titlepage" media-type="application/xhtml+xml"/>
-    <item href="Notes_from_Underground_Transl_P_split_000.html" id="id18" media-type="application/xhtml+xml"/>
-    <item href="Notes_from_Underground_Transl_P_split_002.html" id="id16" media-type="application/xhtml+xml"/>
     <item href="Notes_from_Underground_Transl_P_split_004.html" id="id14" media-type="application/xhtml+xml"/>
     <item href="Notes_from_Underground_Transl_P_split_005.html" id="id13" media-type="application/xhtml+xml"/>
     <item href="Notes_from_Underground_Transl_P_split_006.html" id="id12" media-type="application/xhtml+xml"/>
@@ -28,11 +26,12 @@
     <item href="toc.ncx" media-type="application/x-dtbncx+xml" id="ncx"/>
     <item href="stylesheet.css" id="css" media-type="text/css"/>
     <item href="cover.jpeg" id="cover" media-type="image/jpeg"/>
+    <item id="id2" href="Libre-Baskerville-Bold.ttf" media-type="application/x-font-truetype"/>
+    <item id="id1" href="Libre-Baskerville.ttf" media-type="application/x-font-truetype"/>
+    <item id="id" href="LibreBaskerville-Regular.ttf" media-type="application/x-font-truetype"/>
   </manifest>
   <spine toc="ncx">
     <itemref idref="titlepage"/>
-    <itemref idref="id18"/>
-    <itemref idref="id16"/>
     <itemref idref="id14"/>
     <itemref idref="id13"/>
     <itemref idref="id12"/>
