@@ -7,7 +7,7 @@
     <dc:creator opf:role="aut">Larissa Volokhonsky</dc:creator>
     <dc:publisher>Treebeard</dc:publisher>
     <dc:date>2011-01-09T19:06:39+00:00</dc:date>
-    <dc:contributor opf:role="bkp">calibre (7.15.0) [https://calibre-ebook.com]</dc:contributor>
+    <dc:contributor opf:role="bkp">calibre (7.16.0) [https://calibre-ebook.com]</dc:contributor>
     <dc:identifier id="uuid_id" opf:scheme="uuid">a476f570-ce1e-42a2-8aa3-d73778d1bfbd</dc:identifier>
     <dc:subject>Classics</dc:subject>
     <dc:language>en-US</dc:language>
@@ -19,26 +19,30 @@
   </metadata>
   <manifest>
     <item href="titlepage.xhtml" id="titlepage" media-type="application/xhtml+xml"/>
-    <item href="Notes_from_Underground_Transl_P_split_004.html" id="id14" media-type="application/xhtml+xml"/>
-    <item href="Notes_from_Underground_Transl_P_split_005.html" id="id13" media-type="application/xhtml+xml"/>
-    <item href="Notes_from_Underground_Transl_P_split_006.html" id="id12" media-type="application/xhtml+xml"/>
-    <item href="Notes_from_Underground_Transl_P_split_007.html" id="id11" media-type="application/xhtml+xml"/>
+    <item id="id5" href="spacer.html" media-type="application/xhtml+xml"/>
+    <item href="Book_Tittle.html" id="id14" media-type="application/xhtml+xml"/>
+    <item id="id6" href="spacer2.html" media-type="application/xhtml+xml"/>
+    <item href="Part_One.html" id="id13" media-type="application/xhtml+xml"/>
+    <item id="id3" href="Quote_Part_Two.html" media-type="application/xhtml+xml"/>
+    <item href="Part_Two.html" id="id12" media-type="application/xhtml+xml"/>
     <item href="toc.ncx" media-type="application/x-dtbncx+xml" id="ncx"/>
     <item href="stylesheet.css" id="css" media-type="text/css"/>
-    <item href="cover.jpeg" id="cover" media-type="image/jpeg"/>
+    <item href="cover.jpg" id="cover" media-type="image/jpeg"/>
+    <item id="id4" href="cover.png" media-type="image/png"/>
     <item id="id2" href="Libre-Baskerville-Bold.ttf" media-type="application/x-font-truetype"/>
     <item id="id1" href="Libre-Baskerville.ttf" media-type="application/x-font-truetype"/>
     <item id="id" href="LibreBaskerville-Regular.ttf" media-type="application/x-font-truetype"/>
   </manifest>
   <spine toc="ncx">
     <itemref idref="titlepage"/>
+    <itemref idref="id5"/>
     <itemref idref="id14"/>
+    <itemref idref="id6"/>
     <itemref idref="id13"/>
+    <itemref idref="id3"/>
     <itemref idref="id12"/>
-    <itemref idref="id11"/>
   </spine>
   <guide>
-    <reference href="Notes_from_Underground_Transl_P_split_007.html#filepos348924" type="toc" title="Table of Contents"/>
     <reference href="titlepage.xhtml" type="cover" title="Cover"/>
   </guide>
 </package>

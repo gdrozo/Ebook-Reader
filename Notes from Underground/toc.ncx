@@ -15,13 +15,13 @@
       <navLabel>
         <text>PART ONE: UNDERGROUND</text>
       </navLabel>
-      <content src="Notes_from_Underground_Transl_P_split_005.html"/>
+      <content src="Part_One.html"/>
     </navPoint>
     <navPoint id="num_2" playOrder="2">
       <navLabel>
         <text>PART TWO: APROPOS OF THE WET SNOW</text>
       </navLabel>
-      <content src="Notes_from_Underground_Transl_P_split_006.html"/>
+      <content src="Part_Two.html"/>
     </navPoint>
   </navMap>
 </ncx>
