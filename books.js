@@ -11,7 +11,7 @@ const books = [
   },
   {
     name: 'Notes from Underground',
-    cover: 'Notes from Underground\\cover.jpeg',
+    cover: 'Notes from Underground\\cover.png',
     bookPath: 'Notes from Underground',
   },
 ]
