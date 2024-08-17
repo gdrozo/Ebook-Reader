@@ -1,16 +1,18 @@
+const SERVER_PATH = 'Ebook-Reader'
+//const SERVER_PATH = ''
 const CACHE_NAME = 'epub-reader-cache-v1'
 const urlsToCache = [
-  '/',
-  '/index.html',
-  '/custom.css',
-  '/index.js',
-  '/epub.js',
-  '/security.js',
-  '/books.js',
-  '/library.js',
-  '/library.html',
-  '/jszip.min.js',
-  '/themes.css',
+  SERVER_PATH + '/',
+  SERVER_PATH + '/index.html',
+  SERVER_PATH + '/custom.css',
+  SERVER_PATH + '/index.js',
+  SERVER_PATH + '/epub.js',
+  SERVER_PATH + '/security.js',
+  SERVER_PATH + '/books.js',
+  SERVER_PATH + '/library.js',
+  SERVER_PATH + '/library.html',
+  SERVER_PATH + '/jszip.min.js',
+  SERVER_PATH + '/themes.css',
   // Add other assets here
 ]
 
