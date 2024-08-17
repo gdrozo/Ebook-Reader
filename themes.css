@@ -1,0 +1,15 @@
+.dark {
+  background: #181a1b;
+  color: rgb(156, 163, 175);
+  line-height: 1.5rem;
+}
+
+.light {
+  background: #fff;
+  color: #000;
+}
+
+.tan {
+  background: tan;
+  color: #ccc;
+}

@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='utf-8'?>
+<package xmlns="http://www.idpf.org/2007/opf" unique-identifier="uuid_id" version="2.0">
+    <metadata xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:opf="http://www.idpf.org/2007/opf">
+        <dc:identifier opf:scheme="calibre" id="calibre_id">5</dc:identifier>
+        <dc:identifier opf:scheme="uuid" id="uuid_id">eb7fe8d3-7c9d-4cfe-8d38-054af68f0883</dc:identifier>
+        <dc:title>The Tibetan Book of the Living and Dying</dc:title>
+        <dc:creator opf:file-as="Rinpoche, Sogyal" opf:role="aut">Sogyal Rinpoche</dc:creator>
+        <dc:contributor opf:file-as="calibre" opf:role="bkp">calibre (7.16.0) [https://calibre-ebook.com]</dc:contributor>
+        <dc:date>2002-07-09T20:00:00+00:00</dc:date>
+        <dc:publisher>PerfectBound</dc:publisher>
+        <dc:language>eng</dc:language>
+        <dc:subject>aVe4EvA</dc:subject>
+        <meta name="calibre:timestamp" content="2024-03-16T22:45:10+00:00"/>
+        <meta name="calibre:title_sort" content="Tibetan Book of the Living and Dying, The"/>
+    </metadata>
+    <guide>
+        <reference type="cover" title="Cover" href="Tibetan Book of the Living and Dying, The - Sogyal Rinpoche.jpg"/>
+    </guide>
+</package>

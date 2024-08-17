@@ -1,62 +1,98 @@
 <!DOCTYPE html>
-<html lang="en" class="flex justify-center items-center">
+<html>
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Ebook Reader</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>EPUB Test</title>
     <link rel="icon" type="image/x-icon" href="image/favicon.png" />
-    <link rel="stylesheet" href="tailwind_output.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="manifest" href="manifest.json" />
+
+    <script src="jszip.min.js"></script>
+    <script src="./epub.js"></script>
+
+    <link href="./output.css" rel="stylesheet" />
+    <link rel="manifest" href="/manifest.json" />
   </head>
-  <body
-    class="h-svh max-w-[min(100dvw,600px)] min-w-[min(100dvw,600px)] font-['Libre_Baskerville'] bg-[#181a1b] text-gray-400 overflow-hidden flex justify-center items-center"
-  >
-    <button id="previous" class="z-10 absolute left-0 right-3/4 top-0 bottom-0"></button>
-    <button id="next" class="z-10 absolute right-0 left-3/4 top-0 bottom-0"></button>
+  <body>
+    <!-- <div id="title"></div> -->
+
+    <!-- header -->
     <div
-      class="h-svh w-full grid grid-cols-[2.3rem_auto_2.3rem] grid-rows-[4rem_auto_2rem] overflow-hidden"
+      id="container"
+      class="fixed top-0 left-0 right-0 bottom-0 flex justify-center items-center bg-[#181a1b]"
     >
-      <div></div>
-      <div class="grid grid-cols-[2rem_auto_2rem] items-end z-10 bg-[#181a1b]">
-        <a class="flex justify-start pb-4" href="library.html">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            class="w-5 h-5"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25"
-            />
-          </svg>
-        </a>
-        <div id="bookName" class="mb-3.5 h-6 overflow-hidden text-center">Things to ones self</div>
-        <div class="flex justify-end pb-4 relative">
-          <button id="page-number" class="z-50">1</button>
+      <div class="w-[min(max(45dvw,20rem),45rem)] h-full relative">
+        <div class="absolute top-0 left-4 right-4 overflow-hidden z-10 py-4">
+          <div class="grid grid-cols-[2rem_auto_2rem] items-end z-10 bg-[#181a1b] overflow-hidden">
+            <button class="flex justify-start pb-4" id="menuButton">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-5 h-5"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+                />
+              </svg>
+            </button>
+            <div id="bookName" class="mb-3.5 h-6 overflow-hidden text-center text-lg">
+              Things to ones self
+            </div>
+            <a class="flex justify-end pb-4 w-8" href="library.html">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-5 h-5"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25"
+                />
+              </svg>
+            </a>
+          </div>
         </div>
+
+        <div id="viewer" class="outline-1 outline-green-300 w-full z-0 mt-14"></div>
       </div>
-      <div></div>
-      <div></div>
-      <div id="area" class="h-[calc(100svh-4rem-1rem)] overflow-hidden relative">
-        <div id="links"></div>
-        <div id="content" class="text-justify"></div>
-        <div
-          id="cover"
-          class="absolute left-0 right-0 bottom-0 h-0 bg-[#181a1b] --outline-dashed --outline-2 --opacity-50"
-        ></div>
-      </div>
-      <div></div>
     </div>
+    <button id="prev" href="#prev" class="arrow left-0 sr-only">‹</button>
+    <button id="next" href="#next" class="arrow right-0 sr-only">›</button>
+
+    <div id="cover" class="fixed top-0 bottom-0 left-0 right-0 opacity-0 hidden"></div>
+
+    <div
+      id="menu"
+      class="fixed top-0 bottom-0 left-0 backdrop-blur-sm bg-black/30 overflow-hidden start"
+    >
+      <button class="absolute left-11 top-7 opacity-50" id="close">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="size-6"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+        </svg>
+      </button>
+      <div
+        id="index"
+        class="absolute top-20 left-12 flex flex-col gap-3 right-5 items-stretch bottom-0 overflow-x-hidden overflow-y-scroll"
+      >
+        <div class="font-bold text-2xl pb-3">Things to ones self</div>
+      </div>
+    </div>
+
     <div class="hidden">
       <div
         id="security"
@@ -150,10 +186,11 @@
         </div>
       </div>
     </div>
-    <script src="security.js"></script>
-    <script src="util.js"></script>
-    <script src="service-worker-registrator.js"></script>
-    <script src="main.js"></script>
-    <div></div>
+
+    <!-- 
+      <script src="security.js"></script>
+      <script src="books.js"></script>
+      -->
+    <script type="module" src="./index.js"></script>
   </body>
 </html>
