@@ -16,7 +16,7 @@ try {
 }
 
 let bookName = localStorage.getItem('bookName')
-if (bookName === null) window.location.href = '/library.html'
+if (bookName === null) window.location.href = window.location.href + '/library.html'
 
 document.getElementById('bookName').innerText = bookName
 document.getElementsByTagName('title')[0].innerText = bookName
