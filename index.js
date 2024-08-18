@@ -20,7 +20,7 @@ let index = 0
 
 const { windowWidth, windowHeight, rootFontSize } = getSystemInfo()
 
-const fourRemInPixels = 4 * rootFontSize
+const fourRemInPixels = 3.5 * rootFontSize
 const adjustedHeight = windowHeight - fourRemInPixels
 
 // Load the opf
