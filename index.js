@@ -13,7 +13,7 @@ function getLocalStorageInfo() {
 }
 
 document.getElementById('bookName').innerText = bookName
-document.getElementById('bookName').innerText = `${windowWidth}x${windowHeight}`
+//document.getElementById('bookName').innerText = `${windowWidth}x${windowHeight}`
 
 document.getElementById('menuBookName').innerText = bookName
 document.getElementsByTagName('title')[0].innerText = bookName
