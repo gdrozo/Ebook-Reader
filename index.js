@@ -13,14 +13,14 @@ function getLocalStorageInfo() {
 }
 
 document.getElementById('bookName').innerText = bookName
+document.getElementById('bookName').innerText = `${windowWidth}x${windowHeight}`
+
 document.getElementById('menuBookName').innerText = bookName
 document.getElementsByTagName('title')[0].innerText = bookName
 
 let index = 0
 
 const { windowWidth, windowHeight, rootFontSize } = getSystemInfo()
-
-alert(`${windowWidth}x${windowHeight}`)
 
 const fourRemInPixels = 3.5 * rootFontSize
 const adjustedHeight = windowHeight - fourRemInPixels
