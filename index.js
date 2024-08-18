@@ -370,15 +370,15 @@ document.getElementById('menuButton').onclick = closeMenu
 document.getElementById('close').onclick = closeMenu
 
 function closeMenu() {
-  if (document.getElementById('menu').classList.contains('start')) {
-    document.getElementById('menu').classList.remove('start')
-    document.getElementById('menu').classList.toggle('open')
+  if (document.getElementById('menu').classList.contains('left-hidden')) {
+    document.getElementById('menu').classList.remove('left-hidden')
+    document.getElementById('menu').classList.toggle('open-to-right')
     document.getElementById('cover').classList.toggle('hidden')
     return
   }
 
-  document.getElementById('menu').classList.toggle('close')
-  document.getElementById('menu').classList.toggle('open')
+  document.getElementById('menu').classList.toggle('close-to-left')
+  document.getElementById('menu').classList.toggle('open-to-right')
   document.getElementById('cover').classList.toggle('hidden')
 }
 
@@ -492,4 +492,62 @@ function handleSwipe() {
       nextPage()
     }
   }
+}
+
+setUpLibraryPanel()
+function setUpLibraryPanel() {
+  const library = document.getElementById('library')
+
+  document.getElementById('libraryButton').onclick = e => {
+    library.classList.remove('bottom-hidden')
+    library.classList.add('open-to-top')
+  }
+
+  const libraryCloseButton = document.getElementById('libraryCloseButton')
+  libraryCloseButton.onclick = e => {
+    library.classList.remove('open-to-top')
+    library.classList.add('close-to-bottom')
+  }
+
+  const bookCount = document.getElementById('book-count')
+  bookCount.innerText = `${books.length}`
+
+  const content = document.getElementById('content')
+  books.forEach(book => {
+    const html = `
+        <img
+            class=""
+            src="${book.cover}"
+            class="rounded-md"
+            alt=""
+            srcset=""
+        />
+        <div class="mt-2 text-xs text-center text-gray-400">
+            ${book.name}
+        </div>`
+    const button = document.createElement('button')
+    button.innerHTML = html
+    content.append(button)
+
+    button.onclick = e => {
+      window.location.href = window.location.href.replace('library.html', '')
+      localStorage.setItem('bookPath', book.bookPath)
+      localStorage.setItem('bookName', book.name)
+    }
+  })
+
+  let startY
+
+  library.addEventListener('touchstart', function (e) {
+    startY = e.touches[0].clientY
+  })
+
+  library.addEventListener('touchmove', function (e) {
+    let moveY = e.touches[0].clientY
+    if (moveY - startY > 50) {
+      // Adjust the threshold as needed
+      library.classList.remove('open-to-top')
+      library.classList.add('close-to-bottom')
+    }
+  })
 }

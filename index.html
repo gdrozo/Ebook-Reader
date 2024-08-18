@@ -15,12 +15,11 @@
   <body>
     <!-- <div id="title"></div> -->
 
-    <!-- header -->
     <div
       id="container"
       class="fixed top-0 left-0 right-0 bottom-0 flex justify-center items-center bg-[#181a1b]"
     >
-      <div class="w-[min(max(45dvw,20rem),45rem)] h-full relative">
+      <div class="w-main h-full relative">
         <div class="absolute top-0 left-4 right-4 overflow-hidden z-10 py-4">
           <div class="grid grid-cols-[2rem_auto_2rem] items-end z-10 bg-[#181a1b] overflow-hidden">
             <button class="flex justify-start pb-4" id="menuButton">
@@ -42,7 +41,7 @@
             <div id="bookName" class="mb-3.5 h-6 overflow-hidden text-center text-lg">
               Things to ones self
             </div>
-            <a class="flex justify-end pb-4 w-8" href="library.html">
+            <button id="libraryButton" class="flex justify-end pb-4 w-8">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -57,7 +56,7 @@
                   d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25"
                 />
               </svg>
-            </a>
+            </button>
           </div>
         </div>
 
@@ -71,7 +70,7 @@
 
     <div
       id="menu"
-      class="fixed top-0 bottom-0 left-0 backdrop-blur-sm bg-black/30 overflow-hidden start"
+      class="fixed top-0 bottom-0 left-0 backdrop-blur-sm bg-black/30 overflow-hidden left-hidden"
     >
       <button class="absolute left-11 top-7 opacity-50" id="close">
         <svg
@@ -93,6 +92,52 @@
       </div>
     </div>
 
+    <!-- Library -->
+    <div
+      id="library"
+      class="fixed top-2 bottom-0 left-1 right-1 bg-transparent flex flex-col justify-start items-center bottom-hidden"
+    >
+      <div
+        class="rounded-t-xl flex flex-col justify-start items-center h-full backdrop-blur-sm bg-black/60 w-panel"
+      >
+        <div class="w-10 min-h-1 rounded-full mt-3 bg-white opacity-50"></div>
+
+        <div
+          class="h-svh w-full grid grid-cols-[2.3rem_auto_2.3rem] grid-rows-[4rem_auto_2rem] overflow-hidden"
+        >
+          <div></div>
+          <div class="grid grid-cols-[1fr_auto_1fr] items-end z-10">
+            <button class="flex justify-start pb-4" id="libraryCloseButton">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                class="size-6"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+            </button>
+            <div class="pb-4">Library</div>
+            <div class="flex justify-end pb-4">
+              <span id="book-count"> 0 </span>
+            </div>
+          </div>
+          <div></div>
+          <div></div>
+          <div id="area" class="h-[calc(100svh-4rem-1rem)] overflow-hidden">
+            <div id="links"></div>
+            <div id="content" class="grid grid-cols-2 mt-7 gap-5"></div>
+          </div>
+          <div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Security -->
     <div class="hidden">
       <div
         id="security"
@@ -191,6 +236,7 @@
       <script src="security.js"></script>
       <script src="books.js"></script>
       -->
+    <script src="books.js"></script>
     <script type="module" src="./index.js"></script>
   </body>
 </html>

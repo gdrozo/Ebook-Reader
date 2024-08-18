@@ -18,19 +18,19 @@
   width: min(20rem, 100dvw);
 }
 
-.start {
+.left-hidden {
   transform: translateX(-100%);
 }
 
-.close {
-  animation: gradient 15s ease infinite, closing 0.6s ease forwards !important;
+.close-to-left {
+  animation: gradient 15s ease infinite, closing-to-left 0.6s ease forwards !important;
 }
 
-.open {
-  animation: gradient 15s ease infinite, opening 0.6s ease forwards !important;
+.open-to-right {
+  animation: gradient 15s ease infinite, opening-to-right 0.6s ease forwards !important;
 }
 
-@keyframes opening {
+@keyframes opening-to-right {
   0% {
     transform: translateX(-100%);
   }
@@ -40,7 +40,7 @@
   }
 }
 
-@keyframes closing {
+@keyframes closing-to-left {
   0% {
     transform: translateX(0);
   }
@@ -72,4 +72,48 @@
 
 #viewer iframe {
   /* pointer-events: none; */
+}
+
+.w-main {
+  @apply w-[min(max(45dvw,20rem),45rem)];
+}
+
+.w-panel {
+  @apply w-[min(max(45dvw,22.5rem),45rem)];
+}
+
+.bg-main {
+  @apply bg-[#181a1b];
+}
+
+.bottom-hidden {
+  transform: translateY(100%);
+}
+
+.close-to-bottom {
+  animation: closing-to-bottom 0.5s ease forwards !important;
+}
+
+.open-to-top {
+  animation: opening-to-top 0.5s ease forwards !important;
+}
+
+@keyframes opening-to-top {
+  0% {
+    transform: translateY(100%);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes closing-to-bottom {
+  0% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(100%);
+  }
 }

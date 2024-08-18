@@ -9,8 +9,6 @@ const urlsToCache = [
   SERVER_PATH + '/epub.js',
   SERVER_PATH + '/security.js',
   SERVER_PATH + '/books.js',
-  SERVER_PATH + '/library.js',
-  SERVER_PATH + '/library.html',
   SERVER_PATH + '/jszip.min.js',
   SERVER_PATH + '/themes.css',
   // Add other assets here
