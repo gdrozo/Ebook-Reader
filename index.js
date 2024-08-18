@@ -1,46 +1,26 @@
-try {
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker
-        .register('./service-worker.js')
-        .then(registration => {
-          console.log('Service Worker registered with scope:', registration.scope)
-        })
-        .catch(error => {
-          console.log('Service Worker registration failed:', error)
-        })
-    })
-  }
-} catch (error) {
-  alert(error)
-}
+serviceWorkerRegister()
 
-let bookName = localStorage.getItem('bookName')
-debugger
-if (bookName === null) window.location.href = window.location.href + '/library.html'
+let { bookName, bookPath } = getLocalStorageInfo()
+
+function getLocalStorageInfo() {
+  let bookName = localStorage.getItem('bookName')
+  bookName = bookName ? bookName : books[0].name
+
+  let bookPath = localStorage.getItem('bookPath')
+  bookPath = bookPath ? bookPath : books[0].bookPath
+
+  return { bookName, bookPath }
+}
 
 document.getElementById('bookName').innerText = bookName
+document.getElementById('menuBookName').innerText = bookName
 document.getElementsByTagName('title')[0].innerText = bookName
-
-let bookPath = "Things to One's Self - Marcus Aurelius"
-
-{
-  let result = localStorage.getItem('bookPath')
-  bookPath = result !== null && result !== '' ? result : bookPath
-}
 
 let index = 0
 
-const windowWidth = window.innerWidth
-const windowHeight = window.innerHeight
+const { windowWidth, windowHeight, rootFontSize } = getSystemInfo()
 
-// Get the computed font size (which 1rem is based on)
-const rootFontSize = parseFloat(getComputedStyle(document.documentElement).fontSize)
-
-// Calculate 4rem in pixels
 const fourRemInPixels = 4 * rootFontSize
-
-// Subtract 4rem from innerHeight
 const adjustedHeight = windowHeight - fourRemInPixels
 
 // Load the opf
@@ -48,12 +28,12 @@ let book = ePub()
 let rendition
 
 async function checkEpubExists(url) {
-  return new Promise((resolve, reject) => {
+  return new Promise((r, e) => {
     const dbName = 'EpubStorage'
     const storeName = 'epubs'
     const request = indexedDB.open(dbName, 1)
 
-    request.onerror = event => reject(event.target.error)
+    request.onerror = event => e(event.target.error)
 
     request.onsuccess = event => {
       const db = event.target.result
@@ -61,9 +41,9 @@ async function checkEpubExists(url) {
       const store = transaction.objectStore(storeName)
       const getRequest = store.get(url)
 
-      getRequest.onerror = event => reject(event.target.error)
+      getRequest.onerror = event => e(event.target.error)
       getRequest.onsuccess = event => {
-        resolve(!!event.target.result) // Returns true if the book exists, false otherwise
+        r(!!event.target.result) // Returns true if the book exists, false otherwise
       }
     }
 
@@ -109,7 +89,7 @@ async function storeEpub(url, epubData) {
   })
 }
 
-async function loadBook(url = 'Things to Ones Self - Marcus Aurelius.epub') {
+async function loadBook(url) {
   let bookData
 
   if (navigator.onLine) {
@@ -117,7 +97,6 @@ async function loadBook(url = 'Things to Ones Self - Marcus Aurelius.epub') {
     const exists = await checkEpubExists(url)
     if (!exists) {
       // If not stored, download and store the book
-
       try {
         const response = await fetch(url)
         bookData = await response.blob()
@@ -160,8 +139,6 @@ async function loadBook(url = 'Things to Ones Self - Marcus Aurelius.epub') {
     height: adjustedHeight,
     spread: 'always',
   })
-
-  return { book, rendition }
 }
 
 // Helper function to load book from IndexedDB
@@ -238,8 +215,6 @@ book.ready.then(() => {
   rendition.on('keyup', keyListener)
   document.addEventListener('keyup', keyListener, false)
 })
-
-let title = document.getElementById('title')
 
 rendition.on('relocated', location => {
   let next =
