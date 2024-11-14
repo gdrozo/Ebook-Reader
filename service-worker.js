@@ -2,15 +2,15 @@ const SERVER_PATH = 'Ebook-Reader'
 //const SERVER_PATH = ''
 const CACHE_NAME = 'epub-reader-cache-v1'
 const urlsToCache = [
-  SERVER_PATH + '/',
-  SERVER_PATH + '/index.html',
-  SERVER_PATH + '/custom.css',
-  SERVER_PATH + '/index.js',
-  SERVER_PATH + '/epub.js',
-  SERVER_PATH + '/security.js',
-  SERVER_PATH + '/books.js',
-  SERVER_PATH + '/jszip.min.js',
-  SERVER_PATH + '/themes.css',
+  `${SERVER_PATH}/`,
+  `${SERVER_PATH}/index.html`,
+  `${SERVER_PATH}/custom.css`,
+  `${SERVER_PATH}/index.js`,
+  `${SERVER_PATH}/epub.js`,
+  `${SERVER_PATH}/security.js`,
+  `${SERVER_PATH}/books.js`,
+  `${SERVER_PATH}/jszip.min.js`,
+  `${SERVER_PATH}/themes.css`,
   // Add other assets here
 ]
 
@@ -20,20 +20,36 @@ self.addEventListener('install', event => {
 
 self.addEventListener('fetch', event => {
   event.respondWith(
-    caches.match(event.request).then(response => {
-      if (response) {
-        return response
-      }
-      return fetch(event.request).then(response => {
-        if (!response || response.status !== 200 || response.type !== 'basic') {
-          return response
-        }
-        const responseToCache = response.clone()
-        caches.open(CACHE_NAME).then(cache => {
-          cache.put(event.request, responseToCache)
+    caches.match(event.request).then(
+      response =>
+        response ||
+        fetch(event.request).then(fetchedResponse => {
+          if (
+            !fetchedResponse ||
+            fetchedResponse.status !== 200 ||
+            fetchedResponse.type !== 'basic'
+          ) {
+            return fetchedResponse
+          }
+          const responseToCache = fetchedResponse.clone()
+          caches.open(CACHE_NAME).then(cache => cache.put(event.request, responseToCache))
+          return fetchedResponse
         })
-        return response
-      })
-    })
+    )
+  )
+})
+
+self.addEventListener('activate', event => {
+  const cacheWhitelist = [CACHE_NAME]
+  event.waitUntil(
+    caches.keys().then(keyList =>
+      Promise.all(
+        keyList.map(key => {
+          if (!cacheWhitelist.includes(key)) {
+            return caches.delete(key)
+          }
+        })
+      )
+    )
   )
 })
