@@ -1,9 +1,14 @@
+const SERVER_PATH = 'Ebook-Reader'
+//const SERVER_PATH = ''
+
+const workerPath = `${SERVER_PATH}/service-worker.js`
+
 function registerServiceWorker() {
   try {
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker
-          .register('/service-worker.js')
+          .register(workerPath)
           .then(registration => {
             console.log('Service Worker registered with scope:', registration.scope)
             alert('Service Worker registered with scope: ' + registration.scope)
