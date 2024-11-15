@@ -1,4 +1,4 @@
-function serviceWorkerRegister() {
+function registerServiceWorker() {
   try {
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
@@ -6,6 +6,7 @@ function serviceWorkerRegister() {
           .register('./service-worker.js')
           .then(registration => {
             console.log('Service Worker registered with scope:', registration.scope)
+            alert('Service Worker registered with scope:', registration.scope)
           })
           .catch(error => {
             console.log('Service Worker registration failed:', error)

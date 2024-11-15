@@ -6,10 +6,10 @@
     <title>EPUB Test</title>
     <link rel="icon" type="image/x-icon" href="image/favicon.png" />
 
-    <script src="./jszip.min.js"></script>
-    <script src="./epub.js"></script>
+    <script src="./libs/jszip.min.js"></script>
+    <script src="./libs/epub.js"></script>
 
-    <link href="./output.css" rel="stylesheet" />
+    <link href="./css/output.css" rel="stylesheet" />
     <link rel="manifest" href="./manifest.json" />
   </head>
   <body>
@@ -130,7 +130,27 @@
           <div></div>
           <div id="area" class="h-[calc(100svh-4rem-1rem)] overflow-hidden">
             <div id="links"></div>
-            <div id="content" class="grid grid-cols-2 mt-7 gap-5"></div>
+            <div id="content" class="grid grid-cols-2 mt-7 gap-5">
+              <input class="hidden" type="file" id="input" />
+              <div>
+                <button>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="size-6"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M12 4.5v15m7.5-7.5h-15"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
           </div>
           <div></div>
         </div>
@@ -239,6 +259,7 @@
     <script src="books.js"></script>
 
     <script src="util.js"></script>
+    <script src="engine.js"></script>
     <script type="module" src="./index.js"></script>
   </body>
 </html>
