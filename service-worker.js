@@ -36,10 +36,13 @@ self.addEventListener('fetch', event => {
           ) {
             return networkResponse
           }
-          const responseToCache = networkResponse.clone()
-          caches.open(CACHE_NAME).then(cache => {
-            cache.put(event.request, responseToCache)
-          })
+          // Check if the request is for an .epub file
+          if (!event.request.url.endsWith('.epub')) {
+            const responseToCache = networkResponse.clone()
+            caches.open(CACHE_NAME).then(cache => {
+              cache.put(event.request, responseToCache)
+            })
+          }
           return networkResponse
         })
       })
