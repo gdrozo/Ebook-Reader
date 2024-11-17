@@ -1,4 +1,4 @@
-const SERVER_PATH = 'Ebook-Reader'
+const SERVER_PATH = '/Ebook-Reader'
 //const SERVER_PATH = ''
 const CACHE_NAME = 'epub-reader-cache-v1'
 const urlsToCache = [
