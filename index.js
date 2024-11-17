@@ -1,4 +1,4 @@
-registerServiceWorker()
+//registerServiceWorker()
 
 let { bookName, bookPath } = getLocalStorageInfo()
 
@@ -8,7 +8,7 @@ document.getElementsByTagName('title')[0].innerText = bookName
 
 let index = 0
 
-let { book, rendition } = await loadBook(`${bookPath}/book.epub`)
+let { book, rendition } = await loadBook(bookPath)
 
 let savedLocation = localStorage.getItem(`${bookPath}/book-location`)
 if (savedLocation) {
@@ -344,9 +344,9 @@ function setUpLibraryPanel() {
     content.prepend(button)
 
     button.onclick = e => {
-      window.location.href = window.location.href.replace('library.html', '')
       localStorage.setItem('bookPath', book.bookPath)
       localStorage.setItem('bookName', book.name)
+      window.location.href = window.location.href.replace('library.html', '')
     }
   })
 
@@ -380,12 +380,23 @@ document.getElementById('addBook').onclick = async e => {
       reader.readAsArrayBuffer(file)
 
       reader.onload = async function (e) {
-        console.log('Loaing the book')
         const bookData = e.target.result
         //getting the file name
         const fileName = file.name
-        console.log('file name', fileName)
-        storeEpub(fileName, bookData)
+
+        await storeEpub(fileName, bookData)
+
+        const bookRef = {
+          name: fileName,
+          cover:
+            'Dostoevsky, Fyodor & Pevear, Richard & Volokhonsky, Larissa\\Notes from Underground\\Notes from Underground - Fyodor Dostoevsky & Richard Pevear & Larissa Volokhonsky.jpg',
+          bookPath: fileName,
+        }
+        storeBookToList(bookRef)
+
+        localStorage.setItem('bookPath', bookRef.bookPath)
+        localStorage.setItem('bookName', bookRef.name)
+        window.location.href = window.location.href.replace('library.html', '')
       }
     }
   })

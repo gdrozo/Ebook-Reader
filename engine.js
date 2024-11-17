@@ -10,6 +10,10 @@ function getLocalStorageInfo() {
   let bookPath = localStorage.getItem('bookPath')
   bookPath = bookPath ? bookPath : books[0].bookPath
 
+  if (!bookPath.includes('.epub')) {
+    bookPath = bookPath + '/book.epub'
+  }
+
   return { bookName, bookPath }
 }
 
