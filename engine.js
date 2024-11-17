@@ -45,7 +45,7 @@ async function checkEpubExists(url) {
 }
 
 async function storeEpub(url, epubData) {
-  return new Promise((resolve, reject) => {
+  /*return new Promise((resolve, reject) => {
     const dbName = 'EpubStorage'
     const storeName = 'epubs'
     const request = indexedDB.open(dbName, 1)
@@ -76,7 +76,7 @@ async function storeEpub(url, epubData) {
       const db = event.target.result
       db.createObjectStore(storeName, { keyPath: 'url' })
     }
-  })
+  })*/
 }
 
 async function loadBook(url) {
