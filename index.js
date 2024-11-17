@@ -74,7 +74,9 @@ rendition.on('relocated', location => {
   if (location.atStart) {
     prev.style.visibility = 'hidden'
 
-    previousButton.disabled = false
+    try {
+      previousButton.disabled = false
+    } catch (error) {}
   } else {
     prev.style.visibility = 'visible'
   }
@@ -328,10 +330,12 @@ function setUpLibraryPanel() {
 
   const content = document.getElementById('content')
   books.forEach(book => {
+    let coverUrl = book.cover
+
     const html = `
         <img
             class=""
-            src="${book.cover}"
+            src="${coverUrl}"
             class="rounded-md"
             alt=""
             srcset=""
@@ -386,17 +390,20 @@ document.getElementById('addBook').onclick = async e => {
 
         await storeEpub(fileName, bookData)
 
+        const coverBlob = await getEpubCover(bookData)
+
         const bookRef = {
           name: fileName,
-          cover:
-            'Dostoevsky, Fyodor & Pevear, Richard & Volokhonsky, Larissa\\Notes from Underground\\Notes from Underground - Fyodor Dostoevsky & Richard Pevear & Larissa Volokhonsky.jpg',
+          cover: coverBlob,
           bookPath: fileName,
         }
-        storeBookToList(bookRef)
+        await storeBookToList(bookRef)
 
-        localStorage.setItem('bookPath', bookRef.bookPath)
+        console.log(bookData)
+
+        /*localStorage.setItem('bookPath', bookRef.bookPath)
         localStorage.setItem('bookName', bookRef.name)
-        window.location.href = window.location.href.replace('library.html', '')
+        window.location.href = window.location.href.replace('library.html', '')*/
       }
     }
   })

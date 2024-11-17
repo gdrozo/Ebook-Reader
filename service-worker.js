@@ -1,25 +1,25 @@
 const SERVER_PATH = 'Ebook-Reader'
 //const SERVER_PATH = ''
 const CACHE_NAME = 'epub-reader-cache-v1'
-/*const urlsToCache = [
+const urlsToCache = [
   `${SERVER_PATH}/`,
   `${SERVER_PATH}/index.html`,
   `${SERVER_PATH}/css/custom.css`,
   `${SERVER_PATH}/index.js`,
+  `${SERVER_PATH}/service-worker.js`,
   `${SERVER_PATH}/libs/jszip.min.js`,
   `${SERVER_PATH}/libs/epub.js`,
   `${SERVER_PATH}/security.js`,
   `${SERVER_PATH}/books.js`,
   `${SERVER_PATH}/css/themes.css`,
   // Add other assets here
-]*/
-const urlsToCache = []
+]
+//const urlsToCache = []
 
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(urlsToCache)))
 })
 
-/*
 self.addEventListener('fetch', event => {
   event.respondWith(
     caches
@@ -47,7 +47,6 @@ self.addEventListener('fetch', event => {
       .catch(() => caches.match('/index.html')) // fallback to offline page
   )
 })
-*/
 
 self.addEventListener('activate', event => {
   const cacheWhitelist = [CACHE_NAME]

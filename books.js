@@ -44,8 +44,13 @@ let books = booksFromLocalStorage
       },
     ]
 
-function storeBookToList(book) {
+async function storeBookToList(book) {
   const bookIndex = books.findIndex(b => b.name === book.name)
+
+  if (typeof book.cover !== 'string') {
+    book.cover = await blobToBase64(book.cover)
+  }
+
   if (bookIndex !== -1) {
     books[bookIndex] = book
   } else {

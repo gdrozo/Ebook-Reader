@@ -163,3 +163,39 @@ async function loadFromIndexedDB(url) {
     }
   })
 }
+
+// Function to unzip binary data
+async function unzipBinaryData(binaryData) {
+  try {
+    const zip = await JSZip.loadAsync(binaryData)
+    const files = {}
+
+    for (const filename of Object.keys(zip.files)) {
+      const file = zip.files[filename]
+      if (!file.dir) {
+        // Assuming text files, you can change this based on file types
+        files[filename] = await file.async('string')
+      }
+    }
+    return files
+  } catch (error) {
+    console.error('An error occurred while unzipping the data:', error)
+  }
+}
+
+async function getEpubCover(bookData) {
+  // Create a Blob from the binary data
+  //const blob = new Blob([binaryData], { type: 'application/epub+zip' })
+
+  // Initialize epub.js with the blob
+  const book = ePub()
+
+  book.open(bookData, 'binary')
+
+  // Load the book
+  await book.ready
+
+  const coverUrl = book.cover.replace('/', '')
+  const cover = await book.archive.zip.file(coverUrl).async('blob')
+  return cover
+}
