@@ -1,4 +1,4 @@
-registerServiceWorker()
+//registerServiceWorker()
 
 let { bookName, bookPath } = getLocalStorageInfo()
 
@@ -380,9 +380,12 @@ document.getElementById('addBook').onclick = async e => {
       reader.readAsArrayBuffer(file)
 
       reader.onload = async function (e) {
+        console.log('Loaing the book')
         const bookData = e.target.result
-        console.log(bookData)
-        //book.open(bookData, 'binary')
+        //getting the file name
+        const fileName = file.name
+        console.log('file name', fileName)
+        storeEpub(fileName, bookData)
       }
     }
   })
