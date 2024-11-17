@@ -12,15 +12,17 @@
     <link href="./css/output.css" rel="stylesheet" />
     <link rel="manifest" href="./manifest.json" />
   </head>
-  <body>
+  <body class="bg-[#181a1b] h-dvh w-dvw">
     <!-- <div id="title"></div> -->
+
+    <nav class="bg-[#181a1b]"></nav>
 
     <div
       id="container"
       class="fixed top-0 left-0 right-0 bottom-0 flex justify-center items-center bg-[#181a1b]"
     >
       <div class="w-main h-full relative">
-        <div class="absolute top-0 left-4 right-4 overflow-hidden z-10 py-4">
+        <nav class="absolute top-0 left-4 right-4 overflow-hidden z-10 py-4 bg-[#181a1b]">
           <div class="grid grid-cols-[2rem_auto_2rem] items-end z-10 bg-[#181a1b] overflow-hidden">
             <button class="flex justify-start pb-4" id="menuButton">
               <svg
@@ -58,196 +60,198 @@
               </svg>
             </button>
           </div>
-        </div>
-
+        </nav>
         <div id="viewer" class="outline-1 outline-green-300 w-full z-0 mt-14"></div>
       </div>
     </div>
+
     <button id="prev" href="#prev" class="arrow left-0 sr-only">‹</button>
     <button id="next" href="#next" class="arrow right-0 sr-only">›</button>
 
-    <div id="cover" class="fixed top-0 bottom-0 left-0 right-0 opacity-0 hidden"></div>
+    <div id="aditional-screen" class="">
+      <div id="cover" class="fixed top-0 bottom-0 left-0 right-0 opacity-0 hidden"></div>
 
-    <div
-      id="menu"
-      class="fixed top-0 bottom-0 left-0 backdrop-blur-sm bg-black/30 overflow-hidden left-hidden"
-    >
-      <button class="absolute left-11 top-7 opacity-50" id="close">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor"
-          class="size-6"
-        >
-          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-        </svg>
-      </button>
       <div
-        id="index"
-        class="absolute top-20 left-12 flex flex-col gap-3 right-5 items-stretch bottom-0 overflow-x-hidden overflow-y-scroll"
+        id="menu"
+        class="fixed top-0 bottom-0 left-0 backdrop-blur-sm bg-black/30 overflow-hidden left-hidden"
       >
-        <div id="menuBookName" class="font-bold text-2xl pb-3">Things to ones self</div>
-      </div>
-    </div>
-
-    <!-- Library -->
-    <div
-      id="library"
-      class="fixed top-2 bottom-0 left-1 right-1 bg-transparent flex flex-col justify-start items-center bottom-hidden"
-    >
-      <div
-        class="rounded-t-xl flex flex-col justify-start items-center h-full backdrop-blur-sm bg-black/60 w-panel"
-      >
-        <div class="w-10 min-h-1 rounded-full mt-3 bg-white opacity-50"></div>
-
+        <button class="absolute left-11 top-7 opacity-50" id="close">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="size-6"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+          </svg>
+        </button>
         <div
-          class="h-svh w-full grid grid-cols-[2.3rem_auto_2.3rem] grid-rows-[4rem_auto_2rem] overflow-hidden"
+          id="index"
+          class="absolute top-20 left-12 flex flex-col gap-3 right-5 items-stretch bottom-0 overflow-x-hidden overflow-y-scroll"
         >
-          <div></div>
-          <div class="grid grid-cols-[1fr_auto_1fr] items-end z-10">
-            <button class="flex justify-start pb-4" id="libraryCloseButton">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                class="size-6"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z"
-                  clip-rule="evenodd"
-                />
-              </svg>
-            </button>
-            <div class="pb-4">Library</div>
-            <div class="flex justify-end pb-4">
-              <span id="book-count"> 0 </span>
+          <div id="menuBookName" class="font-bold text-2xl pb-3">Things to ones self</div>
+        </div>
+      </div>
+
+      <!-- Library -->
+      <div
+        id="library"
+        class="fixed top-2 bottom-0 left-1 right-1 bg-transparent flex flex-col justify-start items-center bottom-hidden"
+      >
+        <div
+          class="rounded-t-xl flex flex-col justify-start items-center h-full backdrop-blur-sm bg-black/60 w-panel"
+        >
+          <div class="w-10 min-h-1 rounded-full mt-3 bg-white opacity-50"></div>
+
+          <div
+            class="h-svh w-full grid grid-cols-[2.3rem_auto_2.3rem] grid-rows-[4rem_auto_2rem] overflow-hidden"
+          >
+            <div></div>
+            <div class="grid grid-cols-[1fr_auto_1fr] items-end z-10">
+              <button class="flex justify-start pb-4" id="libraryCloseButton">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  class="size-6"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </button>
+              <div class="pb-4">Library</div>
+              <div class="flex justify-end pb-4">
+                <span id="book-count"> 0 </span>
+              </div>
             </div>
-          </div>
-          <div></div>
-          <div></div>
-          <div id="area" class="h-[calc(100svh-4rem-1rem)] overflow-hidden">
-            <div id="links"></div>
-            <div id="content" class="grid grid-cols-2 mt-7 gap-5">
-              <input class="hidden" type="file" id="input" />
-              <div>
-                <button>
+            <div></div>
+            <div></div>
+            <div id="area" class="h-[calc(100svh-4rem-1rem)] overflow-hidden">
+              <div id="links"></div>
+              <div id="content" class="grid grid-cols-2 mt-7 gap-5">
+                <input class="hidden" type="file" id="bookInput" />
+                <button id="addBook" class="flex justify-center items-center hover:text-white">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke-width="1.5"
                     stroke="currentColor"
-                    class="size-6"
+                    class="size-10 text-inherit"
                   >
                     <path
                       stroke-linecap="round"
+                      stroke="currentColor"
                       stroke-linejoin="round"
                       d="M12 4.5v15m7.5-7.5h-15"
+                      class="text-inherit"
                     />
                   </svg>
                 </button>
               </div>
             </div>
+            <div></div>
           </div>
-          <div></div>
         </div>
       </div>
-    </div>
 
-    <!-- Security -->
-    <div class="hidden">
-      <div
-        id="security"
-        class="absolute top-0 bottom-0 left-0 right-0 z-20 bg-[#181a1b] flex flex-col justify-end items-center text-white/70"
-      >
-        <div id="pass" class="text-lg">Use the pin to enter</div>
-        <div id="numPad" class="grid grid-cols-3 grid-rows-4 gap-x-6 gap-y-4 mt-6 mb-24 text-lg">
-          <button
-            id=""
-            class="bg-white/20 rounded-full h-16 w-16 flex justify-center items-center active:bg-white/30"
-          >
-            1
-          </button>
-          <button
-            id=""
-            class="bg-white/20 rounded-full h-16 w-16 flex justify-center items-center active:bg-white/30"
-          >
-            2
-          </button>
-          <button
-            id=""
-            class="bg-white/20 rounded-full h-16 w-16 flex justify-center items-center active:bg-white/30"
-          >
-            3
-          </button>
-          <button
-            id=""
-            class="bg-white/20 rounded-full h-16 w-16 flex justify-center items-center active:bg-white/30"
-          >
-            4
-          </button>
-          <button
-            id=""
-            class="bg-white/20 rounded-full h-16 w-16 flex justify-center items-center active:bg-white/30"
-          >
-            5
-          </button>
-          <button
-            id=""
-            class="bg-white/20 rounded-full h-16 w-16 flex justify-center items-center active:bg-white/30"
-          >
-            6
-          </button>
-          <button
-            id=""
-            class="bg-white/20 rounded-full h-16 w-16 flex justify-center items-center active:bg-white/30"
-          >
-            7
-          </button>
-          <button
-            id=""
-            class="bg-white/20 rounded-full h-16 w-16 flex justify-center items-center active:bg-white/30"
-          >
-            8
-          </button>
-          <button
-            id=""
-            class="bg-white/20 rounded-full h-16 w-16 flex justify-center items-center active:bg-white/30"
-          >
-            9
-          </button>
-          <button
-            id=""
-            class="rounded-full h-16 w-16 flex justify-center items-center active:bg-white/30"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              class="w-6 h-6"
+      <!-- Security -->
+      <div class="hidden">
+        <div
+          id="security"
+          class="absolute top-0 bottom-0 left-0 right-0 z-20 bg-[#181a1b] flex flex-col justify-end items-center text-white/70"
+        >
+          <div id="pass" class="text-lg">Use the pin to enter</div>
+          <div id="numPad" class="grid grid-cols-3 grid-rows-4 gap-x-6 gap-y-4 mt-6 mb-24 text-lg">
+            <button
+              id=""
+              class="bg-white/20 rounded-full h-16 w-16 flex justify-center items-center active:bg-white/30"
             >
-              <path
-                fill-rule="evenodd"
-                d="M2.515 10.674a1.875 1.875 0 0 0 0 2.652L8.89 19.7c.352.351.829.549 1.326.549H19.5a3 3 0 0 0 3-3V6.75a3 3 0 0 0-3-3h-9.284c-.497 0-.974.198-1.326.55l-6.375 6.374ZM12.53 9.22a.75.75 0 1 0-1.06 1.06L13.19 12l-1.72 1.72a.75.75 0 1 0 1.06 1.06l1.72-1.72 1.72 1.72a.75.75 0 1 0 1.06-1.06L15.31 12l1.72-1.72a.75.75 0 1 0-1.06-1.06l-1.72 1.72-1.72-1.72Z"
-                clip-rule="evenodd"
-              />
-            </svg>
-          </button>
-          <button
-            id=""
-            class="bg-white/20 rounded-full h-16 w-16 flex justify-center items-center active:bg-white/30"
-          >
-            0
-          </button>
-          <button
-            id=""
-            class="rounded-full h-16 w-16 flex justify-center items-center active:bg-white/30 opacity-50 d"
-          >
-            OK
-          </button>
+              1
+            </button>
+            <button
+              id=""
+              class="bg-white/20 rounded-full h-16 w-16 flex justify-center items-center active:bg-white/30"
+            >
+              2
+            </button>
+            <button
+              id=""
+              class="bg-white/20 rounded-full h-16 w-16 flex justify-center items-center active:bg-white/30"
+            >
+              3
+            </button>
+            <button
+              id=""
+              class="bg-white/20 rounded-full h-16 w-16 flex justify-center items-center active:bg-white/30"
+            >
+              4
+            </button>
+            <button
+              id=""
+              class="bg-white/20 rounded-full h-16 w-16 flex justify-center items-center active:bg-white/30"
+            >
+              5
+            </button>
+            <button
+              id=""
+              class="bg-white/20 rounded-full h-16 w-16 flex justify-center items-center active:bg-white/30"
+            >
+              6
+            </button>
+            <button
+              id=""
+              class="bg-white/20 rounded-full h-16 w-16 flex justify-center items-center active:bg-white/30"
+            >
+              7
+            </button>
+            <button
+              id=""
+              class="bg-white/20 rounded-full h-16 w-16 flex justify-center items-center active:bg-white/30"
+            >
+              8
+            </button>
+            <button
+              id=""
+              class="bg-white/20 rounded-full h-16 w-16 flex justify-center items-center active:bg-white/30"
+            >
+              9
+            </button>
+            <button
+              id=""
+              class="rounded-full h-16 w-16 flex justify-center items-center active:bg-white/30"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                class="w-6 h-6"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M2.515 10.674a1.875 1.875 0 0 0 0 2.652L8.89 19.7c.352.351.829.549 1.326.549H19.5a3 3 0 0 0 3-3V6.75a3 3 0 0 0-3-3h-9.284c-.497 0-.974.198-1.326.55l-6.375 6.374ZM12.53 9.22a.75.75 0 1 0-1.06 1.06L13.19 12l-1.72 1.72a.75.75 0 1 0 1.06 1.06l1.72-1.72 1.72 1.72a.75.75 0 1 0 1.06-1.06L15.31 12l1.72-1.72a.75.75 0 1 0-1.06-1.06l-1.72 1.72-1.72-1.72Z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+            </button>
+            <button
+              id=""
+              class="bg-white/20 rounded-full h-16 w-16 flex justify-center items-center active:bg-white/30"
+            >
+              0
+            </button>
+            <button
+              id=""
+              class="rounded-full h-16 w-16 flex justify-center items-center active:bg-white/30 opacity-50 d"
+            >
+              OK
+            </button>
+          </div>
         </div>
       </div>
     </div>

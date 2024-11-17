@@ -20,22 +20,29 @@ self.addEventListener('install', event => {
 
 self.addEventListener('fetch', event => {
   event.respondWith(
-    caches.match(event.request).then(
-      response =>
-        response ||
-        fetch(event.request).then(fetchedResponse => {
+    caches
+      .match(event.request)
+      .then(cachedResponse => {
+        if (cachedResponse) {
+          return cachedResponse
+        }
+        return fetch(event.request).then(networkResponse => {
+          // Check if we received a valid response
           if (
-            !fetchedResponse ||
-            fetchedResponse.status !== 200 ||
-            fetchedResponse.type !== 'basic'
+            !networkResponse ||
+            networkResponse.status !== 200 ||
+            networkResponse.type !== 'basic'
           ) {
-            return fetchedResponse
+            return networkResponse
           }
-          const responseToCache = fetchedResponse.clone()
-          caches.open(CACHE_NAME).then(cache => cache.put(event.request, responseToCache))
-          return fetchedResponse
+          const responseToCache = networkResponse.clone()
+          caches.open(CACHE_NAME).then(cache => {
+            cache.put(event.request, responseToCache)
+          })
+          return networkResponse
         })
-    )
+      })
+      .catch(() => caches.match('/index.html')) // fallback to offline page
   )
 })
 

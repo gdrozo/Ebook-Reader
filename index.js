@@ -3,8 +3,6 @@ registerServiceWorker()
 let { bookName, bookPath } = getLocalStorageInfo()
 
 document.getElementById('bookName').innerText = bookName
-//document.getElementById('bookName').innerText = `${windowWidth}x${windowHeight}`
-
 document.getElementById('menuBookName').innerText = bookName
 document.getElementsByTagName('title')[0].innerText = bookName
 
@@ -366,17 +364,26 @@ function setUpLibraryPanel() {
       library.classList.add('close-to-bottom')
     }
   })
+}
 
-  var inputElement = document.getElementById('input')
+// Add book
+document.getElementById('addBook').onclick = async e => {
+  const inputElement = document.getElementById('bookInput')
+
+  //click input
+  inputElement.click()
 
   inputElement.addEventListener('change', function (e) {
-    var file = e.target.files[0]
+    const file = inputElement.files[0]
     if (window.FileReader) {
-      var reader = new FileReader()
-      //reader.onload = openBook
+      const reader = new FileReader()
       reader.readAsArrayBuffer(file)
 
-      //book.open(bookData, 'binary')
+      reader.onload = async function (e) {
+        const bookData = e.target.result
+        console.log(bookData)
+        //book.open(bookData, 'binary')
+      }
     }
   })
 }
