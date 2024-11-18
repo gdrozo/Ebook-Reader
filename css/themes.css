@@ -1,15 +1,15 @@
 .dark {
-  background: #181a1b;
-  color: rgb(156, 163, 175);
-  line-height: 1.5rem;
+  background: #181a1b !important;
+  color: rgb(156, 163, 175) !important;
+  line-height: 1.5rem !important;
 }
 
 .light {
-  background: #fff;
-  color: #000;
+  background: #fff !important;
+  color: #000 !important;
 }
 
 .tan {
-  background: tan;
-  color: #ccc;
+  background: tan !important;
+  color: #ccc !important;
 }

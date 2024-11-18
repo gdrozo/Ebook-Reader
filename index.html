@@ -13,7 +13,7 @@
     <link rel="manifest" href="./manifest.json" />
 
     <script>
-      try {
+      /*try {
         if ('serviceWorker' in navigator) {
           window.addEventListener('load', () => {
             navigator.serviceWorker
@@ -29,13 +29,13 @@
         }
       } catch (error) {
         alert('Service Worker registration failed: ' + error)
-      }
+      }*/
     </script>
   </head>
   <body class="bg-[#181a1b] h-dvh w-dvw">
     <!-- <div id="title"></div> -->
 
-    <div class="fixed top-0 left-0 right-0 z-[5000]">V2</div>
+    <div class="fixed top-0 left-0 right-0 z-[5000]">V3</div>
 
     <nav class="bg-[#181a1b]"></nav>
 
@@ -46,16 +46,17 @@
       <div class="w-main h-full relative">
         <nav class="absolute top-0 left-4 right-4 overflow-hidden z-10 py-4 bg-[#181a1b]">
           <div class="grid grid-cols-[2rem_auto_2rem] items-end z-10 bg-[#181a1b] overflow-hidden">
-            <button class="flex justify-start pb-4" id="menuButton">
+            <button class="flex justify-start pb-4 hover:text-white" id="menuButton">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke-width="1.5"
                 stroke="currentColor"
-                class="w-5 h-5"
+                class="w-5 h-5 text-inherit"
               >
                 <path
+                  class="text-inherit"
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
@@ -65,16 +66,17 @@
             <div id="bookName" class="mb-3.5 h-6 overflow-hidden text-center text-lg">
               Things to ones self
             </div>
-            <button id="libraryButton" class="flex justify-end pb-4 w-8">
+            <button id="libraryButton" class="flex justify-end pb-4 w-8 hover:text-white">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke-width="1.5"
                 stroke="currentColor"
-                class="w-5 h-5"
+                class="w-5 h-5 text-inherit"
               >
                 <path
+                  class="text-inherit"
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25"
@@ -97,7 +99,7 @@
         id="menu"
         class="fixed top-0 bottom-0 left-0 backdrop-blur-sm bg-black/30 overflow-hidden left-hidden"
       >
-        <button class="absolute left-11 top-7 opacity-50" id="close">
+        <button class="absolute left-11 top-7 opacity-50 hover:opacity-100" id="close">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"

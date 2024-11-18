@@ -159,6 +159,7 @@ rendition.themes.register('light', blobUrl)
 rendition.themes.register('tan', blobUrl)
 
 rendition.themes.select('dark')
+
 //rendition.themes.fontSize('90%')
 
 const nextButton = document.getElementById('next')
@@ -202,12 +203,18 @@ function changePage(e) {
   switch (e.target.id) {
     case 'cover':
       closeMenu()
+      return
+    case 'library':
+      closeLibrary()
+      return
     case 'menu':
       return
 
     default:
       break
   }
+
+  if (!document.getElementById('cover').classList.contains('hidden')) return
 
   switch (e.target.tagName.toLowerCase()) {
     case 'path':
@@ -315,15 +322,13 @@ function setUpLibraryPanel() {
   const library = document.getElementById('library')
 
   document.getElementById('libraryButton').onclick = e => {
+    document.getElementById('cover').classList.remove('hidden')
     library.classList.remove('bottom-hidden')
     library.classList.add('open-to-top')
   }
 
   const libraryCloseButton = document.getElementById('libraryCloseButton')
-  libraryCloseButton.onclick = e => {
-    library.classList.remove('open-to-top')
-    library.classList.add('close-to-bottom')
-  }
+  libraryCloseButton.onclick = closeLibrary
 
   const bookCount = document.getElementById('book-count')
   bookCount.innerText = `${books.length}`
@@ -370,6 +375,14 @@ function setUpLibraryPanel() {
   })
 }
 
+function closeLibrary() {
+  document.getElementById('cover').classList.add('hidden')
+  const library = document.getElementById('library')
+
+  library.classList.remove('open-to-top')
+  library.classList.add('close-to-bottom')
+}
+
 // Add book
 document.getElementById('addBook').onclick = async e => {
   const inputElement = document.getElementById('bookInput')
@@ -392,8 +405,9 @@ document.getElementById('addBook').onclick = async e => {
 
         const coverBlob = await getEpubCover(bookData)
 
+        const bookName = fileName.replace('.epub', '')
         const bookRef = {
-          name: fileName,
+          name: bookName,
           cover: coverBlob,
           bookPath: fileName,
         }
@@ -401,9 +415,9 @@ document.getElementById('addBook').onclick = async e => {
 
         console.log(bookData)
 
-        /*localStorage.setItem('bookPath', bookRef.bookPath)
+        localStorage.setItem('bookPath', bookRef.bookPath)
         localStorage.setItem('bookName', bookRef.name)
-        window.location.href = window.location.href.replace('library.html', '')*/
+        window.location.href = window.location.href.replace('library.html', '')
       }
     }
   })

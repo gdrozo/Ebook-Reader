@@ -1103,6 +1103,10 @@ video {
   color: rgb(255 255 255 / var(--tw-text-opacity, 1));
 }
 
+.hover\:opacity-100:hover {
+  opacity: 1;
+}
+
 .active\:bg-white\/30:active {
   background-color: rgb(255 255 255 / 0.3);
 }

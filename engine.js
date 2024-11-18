@@ -133,6 +133,69 @@ async function loadBook(url) {
     spread: 'always',
   })
 
+  injectCss()
+
+  function injectCss() {
+    console.log('injecting css')
+    try {
+      // Select the node that will be observed for mutations
+      const iframe = document.getElementsByTagName('iframe')[0]
+      // Options for the observer (which mutations to observe)
+      const config = { attributes: true, childList: true, subtree: true }
+      // Callback function to execute when mutations are observed
+      const callback = function (mutationsList, observer) {
+        console.log('iframe changed')
+        if (document.getElementsByTagName('iframe')[0].contentDocument.getElementById('caca')) {
+          return
+        }
+
+        let innerBody = document
+          .getElementsByTagName('iframe')[0]
+          .contentDocument.getElementsByTagName('head')[0]
+
+        let styleElement = document
+          .getElementsByTagName('iframe')[0]
+          .contentDocument.createElement('style')
+
+        styleElement.setAttribute('type', 'text/css')
+        styleElement.setAttribute('id', 'caca')
+        styleElement.innerHTML = '* { color: inherit !important; }'
+
+        innerBody.append(styleElement)
+        console.log('Injecting css')
+        setTimeout(injectCss, 50)
+      }
+      // Create an observer instance linked to the callback function
+      const iFrameObserver = new MutationObserver(callback)
+      // Start observing the target node for configured mutations
+      iFrameObserver.observe(iframe, config)
+
+      const headObserver = new MutationObserver(callback)
+      const head = document
+        .getElementsByTagName('iframe')[0]
+        .contentDocument.getElementsByTagName('head')[0]
+      headObserver.observe(head, config)
+    } catch (error) {
+      setTimeout(injectCss, 50)
+    }
+  }
+
+  /*rendition.on('rendered', section => {
+    let innerBody = document
+      .getElementsByTagName('iframe')[0]
+      .contentDocument.getElementsByTagName('head')[0]
+
+    let styleElement = document
+      .getElementsByTagName('iframe')[0]
+      .contentDocument.createElement('style')
+
+    styleElement.setAttribute('type', 'text/css')
+    styleElement.setAttribute('id', 'caca')
+    styleElement.innerHTML = '* { color: inherit !important; }'
+
+    innerBody.append(styleElement)
+  })*/
+
   return { book, rendition }
 }
 
