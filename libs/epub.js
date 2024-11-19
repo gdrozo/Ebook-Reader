@@ -5561,7 +5561,6 @@
               flow: 'scrolled',
               ignoreClass: '',
             })
-
             ;(0, _core.extend)(this.settings, options.settings || {})
 
             this.viewSettings = {
@@ -6858,7 +6857,7 @@ edited down
             return Constructor
           }
         })()
-        // import Mapping from "./mapping";
+        // import Mapping  from './mapping.js';
 
         // Default Views
 
@@ -6957,7 +6956,6 @@ edited down
               stylesheet: null,
               script: null,
             })
-
             ;(0, _core.extend)(this.settings, options)
 
             if (_typeof(this.settings.manager) === 'object') {
@@ -9828,7 +9826,6 @@ edited down
               width: undefined,
               height: undefined,
             })
-
             ;(0, _core.extend)(_this.settings, options.settings || {})
 
             // Gap can be 0, but defaults doesn't handle that
@@ -10442,7 +10439,8 @@ edited down
       /* 25 */
       /***/ function (module, exports, __webpack_require__) {
         'use strict'
-        /* WEBPACK VAR INJECTION */ ;(function (global) {
+        /* WEBPACK VAR INJECTION */
+        ;(function (global) {
           Object.defineProperty(exports, '__esModule', {
             value: true,
           })
@@ -10691,7 +10689,6 @@ edited down
               replacements: undefined,
               canonical: undefined,
             })
-
             ;(0, _core.extend)(this.settings, options)
 
             // Promises
@@ -17383,7 +17380,8 @@ edited down
       /* 69 */
       /***/ function (module, exports, __webpack_require__) {
         'use strict'
-        /* WEBPACK VAR INJECTION */ ;(function (global, module) {
+        /* WEBPACK VAR INJECTION */
+        ;(function (global, module) {
           var __WEBPACK_AMD_DEFINE_FACTORY__,
             __WEBPACK_AMD_DEFINE_ARRAY__,
             __WEBPACK_AMD_DEFINE_RESULT__
