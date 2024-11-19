@@ -132,7 +132,7 @@ async function loadBook(url) {
     width: '100%',
     height: adjustedHeight,
     spread: 'always',
-    stylesheet: './css/injected.css',
+    stylesheet: '/css/injected.css',
   })
 
   return { book, rendition }
