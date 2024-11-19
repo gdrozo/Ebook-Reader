@@ -39,7 +39,7 @@
   <body class="bg-[#181a1b] h-dvh w-dvw">
     <!-- <div id="title"></div> -->
 
-    <div class="fixed top-0 left-0 right-0 z-[5000]">V6</div>
+    <div class="fixed top-0 left-0 right-0 z-[5000]">V7</div>
 
     <nav class="bg-[#181a1b]"></nav>
 
@@ -50,7 +50,10 @@
       <div class="w-main h-full relative">
         <nav class="absolute top-0 left-4 right-4 overflow-hidden z-10 py-4 bg-[#181a1b]">
           <div class="grid grid-cols-[2rem_auto_2rem] items-end z-10 bg-[#181a1b] overflow-hidden">
-            <button class="flex justify-start pb-4 hover:text-white" id="menuButton">
+            <button
+              class="flex justify-start pb-4 hover:text-white hover:scale-110 transition-all duration-300"
+              id="menuButton"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -70,7 +73,10 @@
             <div id="bookName" class="mb-3.5 h-6 overflow-hidden text-center text-lg">
               Things to ones self
             </div>
-            <button id="libraryButton" class="flex justify-end pb-4 w-8 hover:text-white">
+            <button
+              id="libraryButton"
+              class="flex justify-end pb-4 w-8 hover:text-white hover:scale-110 transition-all duration-300"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -96,23 +102,57 @@
     <button id="prev" href="#prev" class="arrow left-0 sr-only">‹</button>
     <button id="next" href="#next" class="arrow right-0 sr-only">›</button>
 
-    <div id="aditional-screen" class="">
+    <div id="additional-screen" class="">
       <div id="cover" class="fixed top-0 bottom-0 left-0 right-0 opacity-0 hidden"></div>
 
       <div
         id="menu"
-        class="fixed top-0 bottom-0 left-0 backdrop-blur-sm bg-black/30 overflow-hidden left-hidden"
+        class="fixed top-0 bottom-0 left-0 backdrop-blur-sm bg-black/30 overflow-hidden left-hidden z-10"
       >
-        <button class="absolute left-11 top-7 opacity-50 hover:opacity-100" id="close">
+        <button
+          class="absolute left-11 top-7 opacity-50 hover:opacity-100 hover:scale-110 transition-all duration-300"
+          id="close"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
             stroke-width="1.5"
             stroke="currentColor"
-            class="size-6"
+            class="size-6 text-inherit"
           >
-            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M6 18 18 6M6 6l12 12"
+              class="text-inherit"
+            />
+          </svg>
+        </button>
+        <button
+          class="absolute right-11 top-7 opacity-50 hover:opacity-100 hover:scale-110 transition-all duration-300"
+          id="configButton"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="size-6 text-inherit"
+          >
+            <path
+              class="text-inherit"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M10.343 3.94c.09-.542.56-.94 1.11-.94h1.093c.55 0 1.02.398 1.11.94l.149.894c.07.424.384.764.78.93.398.164.855.142 1.205-.108l.737-.527a1.125 1.125 0 0 1 1.45.12l.773.774c.39.389.44 1.002.12 1.45l-.527.737c-.25.35-.272.806-.107 1.204.165.397.505.71.93.78l.893.15c.543.09.94.559.94 1.109v1.094c0 .55-.397 1.02-.94 1.11l-.894.149c-.424.07-.764.383-.929.78-.165.398-.143.854.107 1.204l.527.738c.32.447.269 1.06-.12 1.45l-.774.773a1.125 1.125 0 0 1-1.449.12l-.738-.527c-.35-.25-.806-.272-1.203-.107-.398.165-.71.505-.781.929l-.149.894c-.09.542-.56.94-1.11.94h-1.094c-.55 0-1.019-.398-1.11-.94l-.148-.894c-.071-.424-.384-.764-.781-.93-.398-.164-.854-.142-1.204.108l-.738.527c-.447.32-1.06.269-1.45-.12l-.773-.774a1.125 1.125 0 0 1-.12-1.45l.527-.737c.25-.35.272-.806.108-1.204-.165-.397-.506-.71-.93-.78l-.894-.15c-.542-.09-.94-.56-.94-1.109v-1.094c0-.55.398-1.02.94-1.11l.894-.149c.424-.07.765-.383.93-.78.165-.398.143-.854-.108-1.204l-.526-.738a1.125 1.125 0 0 1 .12-1.45l.773-.773a1.125 1.125 0 0 1 1.45-.12l.737.527c.35.25.807.272 1.204.107.397-.165.71-.505.78-.929l.15-.894Z"
+            />
+            <path
+              class="text-inherit"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+            />
           </svg>
         </button>
         <div
@@ -126,10 +166,10 @@
       <!-- Library -->
       <div
         id="library"
-        class="fixed top-2 bottom-0 left-1 right-1 bg-transparent flex flex-col justify-start items-center bottom-hidden"
+        class="fixed top-2 bottom-0 left-1 right-1 bg-transparent flex flex-col justify-start items-center bottom-hidden overflow-auto"
       >
         <div
-          class="rounded-t-xl flex flex-col justify-start items-center h-full backdrop-blur-sm bg-black/60 w-panel"
+          class="rounded-t-xl flex flex-col justify-start items-center h-full backdrop-blur-sm bg-black/60 w-panel overflow-auto"
         >
           <div class="w-10 min-h-1 rounded-full mt-3 bg-white opacity-50"></div>
 
@@ -159,7 +199,7 @@
             </div>
             <div></div>
             <div></div>
-            <div id="area" class="h-[calc(100svh-4rem-1rem)] overflow-hidden">
+            <div id="area" class="min-h-[calc(100svh-4rem-1rem)] overflow-auto pb-10">
               <div id="links"></div>
               <div id="content" class="grid grid-cols-2 mt-7 gap-5">
                 <input class="hidden" type="file" id="bookInput" />
@@ -292,6 +332,7 @@
 
     <script src="util.js"></script>
     <script src="engine.js"></script>
+    <script src="./components/config.js"></script>
     <script type="module" src="./index.js"></script>
   </body>
 </html>

@@ -126,7 +126,6 @@ async function loadBook(url) {
 
   book.open(bookData, 'binary')
 
-  debugger
   // Render the book
   rendition = book.renderTo('viewer', {
     width: '100%',

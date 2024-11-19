@@ -644,6 +644,10 @@ video {
   right: 0.25rem;
 }
 
+.right-11 {
+  right: 2.75rem;
+}
+
 .right-4 {
   right: 1rem;
 }
@@ -666,6 +670,10 @@ video {
 
 .top-7 {
   top: 1.75rem;
+}
+
+.-z-10 {
+  z-index: -10;
 }
 
 .z-0 {
@@ -742,10 +750,6 @@ video {
   height: 1.5rem;
 }
 
-.h-\[calc\(100svh-4rem-1rem\)\] {
-  height: calc(100svh - 4rem - 1rem);
-}
-
 .h-dvh {
   height: 100dvh;
 }
@@ -760,6 +764,10 @@ video {
 
 .min-h-1 {
   min-height: 0.25rem;
+}
+
+.min-h-\[calc\(100svh-4rem-1rem\)\] {
+  min-height: calc(100svh - 4rem - 1rem);
 }
 
 .w-10 {
@@ -780,6 +788,10 @@ video {
 
 .w-8 {
   width: 2rem;
+}
+
+.w-\[min\(20rem\2c 100dvw\)\] {
+  width: min(20rem,100dvw);
 }
 
 .w-dvw {
@@ -863,6 +875,10 @@ video {
   row-gap: 1rem;
 }
 
+.overflow-auto {
+  overflow: auto;
+}
+
 .overflow-hidden {
   overflow: hidden;
 }
@@ -913,6 +929,10 @@ video {
 .py-4 {
   padding-top: 1rem;
   padding-bottom: 1rem;
+}
+
+.pb-10 {
+  padding-bottom: 2.5rem;
 }
 
 .pb-3 {
@@ -971,6 +991,16 @@ video {
   backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
 }
 
+.transition-all {
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+.duration-300 {
+  transition-duration: 300ms;
+}
+
 .arrow {
   position: fixed;
   top: 0px;
@@ -988,6 +1018,12 @@ video {
   background-size: 400% 400%;
   animation: gradient 15s ease infinite;
   width: min(20rem, 100dvw);
+}
+
+.menu {
+  background: linear-gradient(-45deg, rgba(48, 47, 47, 0.8), rgba(0, 0, 0, 0.8));
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
 }
 
 .left-hidden {
@@ -1096,6 +1132,50 @@ video {
   100% {
     transform: translateY(100%);
   }
+}
+
+:root {
+  --scrollbar-bg: #0a0a0b00;
+  --scrollbar-thumb: #fee5c827;
+  --scrollbar-thumb-hover: #ffffff;
+}
+
+* {
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-bg);
+  scrollbar-width: thin;
+}
+
+/* Scrollbar Track */
+
+::-webkit-scrollbar-track {
+  background: var(--scrollbar-bg);
+  border-radius: 100rem;
+}
+
+/* Scrollbar Handle */
+
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 100rem;
+}
+
+/* Scrollbar Handle on Hover */
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover);
+}
+
+/* Scrollbar Width */
+
+::-webkit-scrollbar {
+  width: 2px;
+  border-radius: 100rem;
+}
+
+.hover\:scale-110:hover {
+  --tw-scale-x: 1.1;
+  --tw-scale-y: 1.1;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
 .hover\:text-white:hover {
