@@ -10,6 +10,8 @@ let index = 0
 
 let { book, rendition } = await loadBook(bookPath)
 
+window.rendition = rendition
+
 let savedLocation = localStorage.getItem(`${bookPath}/book-location`)
 if (savedLocation) {
   rendition.display(savedLocation)
@@ -160,7 +162,7 @@ rendition.themes.register('tan', blobUrl)
 
 rendition.themes.select('dark')
 
-//rendition.themes.fontSize('90%')
+rendition.themes.fontSize(textSize + 'px')
 
 const nextButton = document.getElementById('next')
 const previousButton = document.getElementById('prev')
@@ -189,14 +191,15 @@ document.getElementById('close').onclick = closeMenu
 function closeMenu() {
   if (document.getElementById('menu').classList.contains('left-hidden')) {
     document.getElementById('menu').classList.remove('left-hidden')
-    document.getElementById('menu').classList.toggle('open-to-right')
-    document.getElementById('cover').classList.toggle('hidden')
+    document.getElementById('menu').classList.add('open-to-right')
+    document.getElementById('cover').classList.remove('hidden')
     return
   }
 
-  document.getElementById('menu').classList.toggle('close-to-left')
-  document.getElementById('menu').classList.toggle('open-to-right')
-  document.getElementById('cover').classList.toggle('hidden')
+  document.getElementById('menu').classList.add('close-to-left')
+  document.getElementById('menu').classList.remove('open-to-right')
+  document.getElementById('cover').classList.add('hidden')
+  document.getElementById('menu').classList.add('left-hidden')
 }
 
 function changePage(e) {
