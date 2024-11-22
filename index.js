@@ -134,7 +134,7 @@ book.loaded.navigation.then(toc => {
   as.forEach(a => {
     indexElement.appendChild(a)
     a.addEventListener('click', e => {
-      closeMenu()
+      toggleMenu()
 
       as.forEach(aa => {
         aa.classList.remove('active')
@@ -184,11 +184,12 @@ async function prevPage(e) {
   previousButton.disabled = false
 }
 
-document.getElementById('menuButton').onclick = closeMenu
+document.getElementById('menuButton').onclick = toggleMenu
 
-document.getElementById('close').onclick = closeMenu
+document.getElementById('close').onclick = toggleMenu
+document.getElementById('cover').onclick = changePage
 
-function closeMenu() {
+function toggleMenu() {
   if (document.getElementById('menu').classList.contains('left-hidden')) {
     document.getElementById('menu').classList.remove('left-hidden')
     document.getElementById('menu').classList.add('open-to-right')
@@ -205,7 +206,7 @@ function closeMenu() {
 function changePage(e) {
   switch (e.target.id) {
     case 'cover':
-      closeMenu()
+      toggleMenu()
       return
     case 'library':
       closeLibrary()
@@ -293,8 +294,8 @@ function handleTouchEnd(e) {
 }
 
 document.getElementById('navigation').addEventListener('click', changePage)
-document.addEventListener('touchstart', handleTouchStart)
-document.addEventListener('touchend', handleTouchEnd)
+document.getElementById('navigation').addEventListener('touchstart', handleTouchStart)
+document.getElementById('navigation').addEventListener('touchend', handleTouchEnd)
 
 // Register a hook to capture mouse events
 /*rendition.hooks.content.register(contents => {
