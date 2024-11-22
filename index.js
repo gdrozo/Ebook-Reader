@@ -234,10 +234,10 @@ function changePage(e) {
   const rect = e.target.getBoundingClientRect()
   const clickX = e.clientX - rect.left
 
-  const minWidth = 100
+  const minWidth = screenWidth * 0.2
 
   let cutout = screenWidth * 0.3
-  cutout = cutout < minWidth ? minWidth : cutout
+  cutout = cutout < minWidth ? cutout : minWidth
 
   if (clickX < screenWidth / 2 - cutout / 2) {
     console.log('up')
