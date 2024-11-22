@@ -37,16 +37,16 @@ document.getElementById('configButton').onclick = e => {
         <div class="grid grid-cols-[35%_65%] gap-2 w-full">
             <label class="" for="textSize">Text Size</label>
             
-            <div class="flex ">
+            <div class="flex rounded-md bg-[#181a1b]">
                 
-                <button id="textSizeMinus" class="flex justify-center items-center hover:text-white">
+                <button id="textSizeMinus" class="flex justify-center items-center w-10 hover:text-white">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 text-inherit">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14" class="text-inherit" />
                     </svg>
                 </button>
-                <input class="px-1 bg-[#181a1b] rounded-md min-w-0 w-[calc(100%-3.5rem)]" type="number" min="1"  value="${textSize}" pattern="\d+" name="textSize" id="textSize">
+                <input class="px-1 bg-transparent min-w-0 w-[calc(100%-2.5rem*2)]" type="number" min="1"  value="${textSize}" pattern="\d+" name="textSize" id="textSize">
 
-                <button id="textSizePlus" class="flex justify-center items-center hover:text-white">
+                <button id="textSizePlus" class="flex w-10 justify-center items-center hover:text-white">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 text-inherit">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"  class="text-inherit" />
                     </svg>

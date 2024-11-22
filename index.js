@@ -231,18 +231,15 @@ function changePage(e) {
   }
 
   const screenWidth = window.innerWidth
-  const rect = e.target.getBoundingClientRect()
-  const clickX = e.clientX - rect.left
-
-  const minWidth = screenWidth * 0.2
+  const clickX = e.clientX
 
   let cutout = screenWidth * 0.3
-  cutout = cutout < minWidth ? cutout : minWidth
+  cutout = cutout < 100 ? screenWidth * 0.2 : cutout
 
-  if (clickX < screenWidth / 2 - cutout / 2) {
+  if (clickX < cutout) {
     console.log('up')
     prevPage()
-  } else if (clickX > screenWidth / 2 + cutout / 2) {
+  } else if (clickX > screenWidth - cutout) {
     console.log('pop')
     nextPage()
   } else {
@@ -295,16 +292,16 @@ function handleTouchEnd(e) {
   handleSwipe()
 }
 
-document.body.addEventListener('click', changePage)
+document.getElementById('navigation').addEventListener('click', changePage)
 document.addEventListener('touchstart', handleTouchStart)
 document.addEventListener('touchend', handleTouchEnd)
 
 // Register a hook to capture mouse events
-rendition.hooks.content.register(contents => {
+/*rendition.hooks.content.register(contents => {
   contents.document.addEventListener('click', changePage)
   contents.document.addEventListener('touchstart', handleTouchStart)
   contents.document.addEventListener('touchend', handleTouchEnd)
-})
+})*/
 
 function handleSwipe() {
   const deltaX = endX - startX
