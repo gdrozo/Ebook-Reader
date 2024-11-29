@@ -738,6 +738,10 @@ video {
   height: 4rem;
 }
 
+.h-20 {
+  height: 5rem;
+}
+
 .h-5 {
   height: 1.25rem;
 }
@@ -756,6 +760,14 @@ video {
 
 .h-svh {
   height: 100svh;
+}
+
+.h-10 {
+  height: 2.5rem;
+}
+
+.h-8 {
+  height: 2rem;
 }
 
 .min-h-1 {
@@ -786,8 +798,12 @@ video {
   width: 2rem;
 }
 
-.w-\[calc\(100\%-3\.5rem\)\] {
-  width: calc(100% - 3.5rem);
+.w-\[65\%\] {
+  width: 65%;
+}
+
+.w-\[calc\(100\%-2\.5rem\*2\)\] {
+  width: calc(100% - 2.5rem * 2);
 }
 
 .w-\[min\(20rem\2c 100dvw\)\] {
@@ -802,8 +818,12 @@ video {
   width: 100%;
 }
 
-.w-\[calc\(100\%-2\.5rem\*2\)\] {
-  width: calc(100% - 2.5rem * 2);
+.w-14 {
+  width: 3.5rem;
+}
+
+.w-\[calc\(100\%-3\.5rem\*2\)\] {
+  width: calc(100% - 3.5rem * 2);
 }
 
 .min-w-0 {

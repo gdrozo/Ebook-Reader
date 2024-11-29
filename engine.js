@@ -5,10 +5,17 @@ const adjustedHeight = windowHeight - fourRemInPixels
 
 function getLocalStorageInfo() {
   let bookName = localStorage.getItem('bookName')
-  bookName = bookName ? bookName : books[0].name
+  if (!bookName) {
+    if (books.length > 0) {
+      //Open the local library
+    } else {
+      //Open the public library
+      openPublicLibraryPanel()
+    }
+    throw new Error('No book name found in local storage')
+  }
 
   let bookPath = localStorage.getItem('bookPath')
-  bookPath = bookPath ? bookPath : books[0].bookPath
 
   if (!bookPath.includes('.epub')) {
     bookPath = bookPath + '/book.epub'

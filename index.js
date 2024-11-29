@@ -1,322 +1,306 @@
 //registerServiceWorker()
 
-let { bookName, bookPath } = getLocalStorageInfo()
+let bookName, bookPath, book, rendition
 
-document.getElementById('bookName').innerText = bookName
-document.getElementById('menuBookName').innerText = bookName
-document.getElementsByTagName('title')[0].innerText = bookName
+async function loadCurrentBook() {
+  let localStorageInfo = getLocalStorageInfo()
+  bookName = localStorageInfo.bookName
+  bookPath = localStorageInfo.bookPath
 
-let index = 0
+  document.getElementById('bookName').innerText = bookName
+  document.getElementById('menuBookName').innerText = bookName
+  document.getElementsByTagName('title')[0].innerText = bookName
 
-let { book, rendition } = await loadBook(bookPath)
+  let index = 0
 
-window.rendition = rendition
+  let { book: b, rendition: r } = await loadBook(bookPath)
 
-let savedLocation = localStorage.getItem(`${bookPath}/book-location`)
-if (savedLocation) {
-  rendition.display(savedLocation)
-} else {
-  rendition.display()
+  book = b
+  rendition = r
+
+  window.rendition = rendition
+
+  let savedLocation = localStorage.getItem(`${bookPath}/book-location`)
+  if (savedLocation) {
+    rendition.display(savedLocation)
+  } else {
+    rendition.display()
+  }
+
+  book.ready.then(() => {
+    let next = document.getElementById('next')
+
+    next.addEventListener(
+      'click',
+      function (e) {
+        book.package.metadata.direction === 'rtl' ? rendition.prev() : rendition.next()
+        e.preventDefault()
+      },
+      false
+    )
+
+    let prev = document.getElementById('prev')
+    prev.addEventListener(
+      'click',
+      function (e) {
+        book.package.metadata.direction === 'rtl' ? rendition.next() : rendition.prev()
+        e.preventDefault()
+      },
+      false
+    )
+
+    let keyListener = function (e) {
+      // Left Key
+      if ((e.keyCode || e.which) == 37) {
+        book.package.metadata.direction === 'rtl' ? rendition.next() : rendition.prev()
+      }
+
+      // Right Key
+      if ((e.keyCode || e.which) == 39) {
+        book.package.metadata.direction === 'rtl' ? rendition.prev() : rendition.next()
+      }
+    }
+
+    rendition.on('keyup', keyListener)
+    document.addEventListener('keyup', keyListener, false)
+  })
+
+  rendition.on('relocated', location => {
+    let next =
+      book.package.metadata.direction === 'rtl'
+        ? document.getElementById('prev')
+        : document.getElementById('next')
+    let prev =
+      book.package.metadata.direction === 'rtl'
+        ? document.getElementById('next')
+        : document.getElementById('prev')
+
+    if (location.atEnd) {
+      next.style.visibility = 'hidden'
+    } else {
+      next.style.visibility = 'visible'
+    }
+
+    if (location.atStart) {
+      prev.style.visibility = 'hidden'
+
+      try {
+        previousButton.disabled = false
+      } catch (error) {}
+    } else {
+      prev.style.visibility = 'visible'
+    }
+
+    if (location && location.start) {
+      index = location.start.href
+      localStorage.setItem(`${bookPath}/book-location`, location.start.cfi)
+
+      document
+        .getElementById('menu')
+        .querySelectorAll('a')
+        .forEach(a => a.classList.remove('active'))
+
+      document.getElementById(`a-${index}`)?.classList.add('active')
+    }
+  })
+
+  rendition.on('layout', function (layout) {
+    let viewer = document.getElementById('viewer')
+
+    if (layout.spread) {
+      viewer.classList.remove('single')
+    } else {
+      viewer.classList.add('single')
+    }
+  })
+
+  window.addEventListener('unload', () => {
+    console.log('unloading')
+    this.book.destroy()
+  })
+
+  book.loaded.navigation.then(toc => {
+    let indexElement = document.getElementById('index')
+    const as = []
+
+    toc.forEach(chapter => {
+      const a = document.createElement('a')
+      a.textContent = chapter.label
+      a.setAttribute('id', `a-${chapter.href}`)
+
+      a.addEventListener('click', e => {
+        rendition.display(chapter.href)
+      })
+
+      if (chapter.href === index) a.classList.add('active')
+
+      as.push(a)
+    })
+
+    as.forEach(a => {
+      indexElement.appendChild(a)
+      a.addEventListener('click', e => {
+        toggleMenu()
+
+        as.forEach(aa => {
+          aa.classList.remove('active')
+        })
+        a.classList.add('active')
+      })
+    })
+  })
 }
 
-book.ready.then(() => {
-  let next = document.getElementById('next')
+async function registerTheme() {
+  let response
 
-  next.addEventListener(
-    'click',
-    function (e) {
-      book.package.metadata.direction === 'rtl' ? rendition.prev() : rendition.next()
-      e.preventDefault()
-    },
-    false
-  )
+  try {
+    response = await caches.match('css/themes.css')
+  } catch (error) {}
 
-  let prev = document.getElementById('prev')
-  prev.addEventListener(
-    'click',
-    function (e) {
-      book.package.metadata.direction === 'rtl' ? rendition.next() : rendition.prev()
-      e.preventDefault()
-    },
-    false
-  )
+  if (!response) response = await fetch('css/themes.css')
 
-  let keyListener = function (e) {
-    // Left Key
-    if ((e.keyCode || e.which) == 37) {
-      book.package.metadata.direction === 'rtl' ? rendition.next() : rendition.prev()
-    }
+  const cssBlob = await response.blob()
 
-    // Right Key
-    if ((e.keyCode || e.which) == 39) {
-      book.package.metadata.direction === 'rtl' ? rendition.prev() : rendition.next()
-    }
-  }
+  const blobUrl = URL.createObjectURL(cssBlob)
 
-  rendition.on('keyup', keyListener)
-  document.addEventListener('keyup', keyListener, false)
-})
+  rendition.themes.register('dark', blobUrl)
+  rendition.themes.register('light', blobUrl)
+  rendition.themes.register('tan', blobUrl)
 
-rendition.on('relocated', location => {
-  let next =
-    book.package.metadata.direction === 'rtl'
-      ? document.getElementById('prev')
-      : document.getElementById('next')
-  let prev =
-    book.package.metadata.direction === 'rtl'
-      ? document.getElementById('next')
-      : document.getElementById('prev')
+  rendition.themes.select('dark')
 
-  if (location.atEnd) {
-    next.style.visibility = 'hidden'
-  } else {
-    next.style.visibility = 'visible'
-  }
-
-  if (location.atStart) {
-    prev.style.visibility = 'hidden'
-
-    try {
-      previousButton.disabled = false
-    } catch (error) {}
-  } else {
-    prev.style.visibility = 'visible'
-  }
-
-  if (location && location.start) {
-    index = location.start.href
-    localStorage.setItem(`${bookPath}/book-location`, location.start.cfi)
-
-    document
-      .getElementById('menu')
-      .querySelectorAll('a')
-      .forEach(a => a.classList.remove('active'))
-
-    document.getElementById(`a-${index}`)?.classList.add('active')
-  }
-
-  addEventListener()
-})
-
-rendition.on('layout', function (layout) {
-  let viewer = document.getElementById('viewer')
-
-  if (layout.spread) {
-    viewer.classList.remove('single')
-  } else {
-    viewer.classList.add('single')
-  }
-})
-
-window.addEventListener('unload', () => {
-  console.log('unloading')
-  this.book.destroy()
-})
-
-book.loaded.navigation.then(toc => {
-  let indexElement = document.getElementById('index')
-  const as = []
-
-  toc.forEach(chapter => {
-    const a = document.createElement('a')
-    a.textContent = chapter.label
-    a.setAttribute('id', `a-${chapter.href}`)
-
-    a.addEventListener('click', e => {
-      rendition.display(chapter.href)
-    })
-
-    if (chapter.href === index) a.classList.add('active')
-
-    as.push(a)
-  })
-
-  as.forEach(a => {
-    indexElement.appendChild(a)
-    a.addEventListener('click', e => {
-      toggleMenu()
-
-      as.forEach(aa => {
-        aa.classList.remove('active')
-      })
-      a.classList.add('active')
-    })
-  })
-})
-
-let response
+  rendition.themes.fontSize(textSize + 'px')
+}
 
 try {
-  response = await caches.match(url)
-} catch (error) {}
+  await loadCurrentBook()
+  await registerTheme()
 
-if (!response) response = await fetch('css/themes.css')
+  const nextButton = document.getElementById('next')
+  const previousButton = document.getElementById('prev')
 
-const cssBlob = await response.blob()
+  nextButton.onclick = nextPage
+  previousButton.onclick = prevPage
 
-const blobUrl = URL.createObjectURL(cssBlob)
+  async function nextPage(e) {
+    nextButton.disabled = true
+    rendition.next()
 
-rendition.themes.register('dark', blobUrl)
-rendition.themes.register('light', blobUrl)
-rendition.themes.register('tan', blobUrl)
-
-rendition.themes.select('dark')
-
-rendition.themes.fontSize(textSize + 'px')
-
-const nextButton = document.getElementById('next')
-const previousButton = document.getElementById('prev')
-
-nextButton.onclick = nextPage
-previousButton.onclick = prevPage
-
-async function nextPage(e) {
-  nextButton.disabled = true
-  rendition.next()
-
-  nextButton.disabled = false
-}
-
-async function prevPage(e) {
-  previousButton.disabled = true
-  rendition.prev()
-
-  previousButton.disabled = false
-}
-
-document.getElementById('menuButton').onclick = toggleMenu
-
-document.getElementById('close').onclick = toggleMenu
-document.getElementById('cover').onclick = changePage
-
-function toggleMenu() {
-  if (document.getElementById('menu').classList.contains('left-hidden')) {
-    document.getElementById('menu').classList.remove('left-hidden')
-    document.getElementById('menu').classList.add('open-to-right')
-    document.getElementById('cover').classList.remove('hidden')
-    return
+    nextButton.disabled = false
   }
 
-  document.getElementById('menu').classList.add('close-to-left')
-  document.getElementById('menu').classList.remove('open-to-right')
-  document.getElementById('cover').classList.add('hidden')
-  document.getElementById('menu').classList.add('left-hidden')
-}
+  async function prevPage(e) {
+    previousButton.disabled = true
+    rendition.prev()
 
-function changePage(e) {
-  switch (e.target.id) {
-    case 'cover':
-      toggleMenu()
-      return
-    case 'library':
-      closeLibrary()
-      return
-    case 'menu':
-      return
-
-    default:
-      break
+    previousButton.disabled = false
   }
 
-  if (!document.getElementById('cover').classList.contains('hidden')) return
+  document.getElementById('menuButton').onclick = toggleMenu
 
-  switch (e.target.tagName.toLowerCase()) {
-    case 'path':
-    case 'svg':
-    case 'button':
-    case 'a':
+  document.getElementById('close').onclick = toggleMenu
+  document.getElementById('cover').onclick = changePage
+
+  function toggleMenu() {
+    if (document.getElementById('menu').classList.contains('left-hidden')) {
+      document.getElementById('menu').classList.remove('left-hidden')
+      document.getElementById('menu').classList.add('open-to-right')
+      document.getElementById('cover').classList.remove('hidden')
       return
+    }
 
-    default:
-      break
+    document.getElementById('menu').classList.add('close-to-left')
+    document.getElementById('menu').classList.remove('open-to-right')
+    document.getElementById('cover').classList.add('hidden')
+    document.getElementById('menu').classList.add('left-hidden')
   }
 
-  const screenWidth = window.innerWidth
-  const clickX = e.clientX
+  function changePage(e) {
+    switch (e.target.id) {
+      case 'cover':
+        toggleMenu()
+        return
+      case 'library':
+        closeLibrary()
+        return
+      case 'menu':
+        return
 
-  let cutout = screenWidth * 0.3
-  cutout = cutout < 100 ? screenWidth * 0.2 : cutout
+      default:
+        break
+    }
 
-  if (clickX < cutout) {
-    console.log('up')
-    prevPage()
-  } else if (clickX > screenWidth - cutout) {
-    console.log('pop')
-    nextPage()
-  } else {
-    console.log('no action')
+    if (!document.getElementById('cover').classList.contains('hidden')) return
+
+    switch (e.target.tagName.toLowerCase()) {
+      case 'path':
+      case 'svg':
+      case 'button':
+      case 'a':
+        return
+
+      default:
+        break
+    }
+
+    const screenWidth = window.innerWidth
+    const clickX = e.clientX
+
+    let cutout = screenWidth * 0.3
+    cutout = cutout < 100 ? screenWidth * 0.2 : cutout
+
+    if (clickX < cutout) {
+      console.log('up')
+      prevPage()
+    } else if (clickX > screenWidth - cutout) {
+      console.log('pop')
+      nextPage()
+    } else {
+      console.log('no action')
+    }
   }
-}
 
-let startX, startY, endX, endY
-const minHorizontalSwipe = 50 // Minimum swipe distance in pixels
-const maxVerticalSwipe = 30 // Maximum vertical movement allowed
+  let startX, startY, endX, endY
+  const minHorizontalSwipe = 50 // Minimum swipe distance in pixels
+  const maxVerticalSwipe = 30 // Maximum vertical movement allowed
 
-async function addEventListener() {
-  /*try {
-    const iframe = document.querySelector('iframe')
-    let iframeDocument = iframe.contentDocument || iframe.contentWindow.document
+  function handleTouchStart(e) {
+    startX = e.touches[0].clientX
+    startY = e.touches[0].clientY
+  }
 
-    // Get the body of the iframe's document
-    let iframeBody = iframeDocument.body
+  function handleTouchEnd(e) {
+    endX = e.changedTouches[0].clientX
+    endY = e.changedTouches[0].clientY
+    handleSwipe()
+  }
 
-    try {
-      iframeDocument.removeEventListener('touchstart', handleTouchStart)
-    } catch (error) {}
+  document.getElementById('navigation').addEventListener('click', changePage)
+  document.getElementById('navigation').addEventListener('touchstart', handleTouchStart)
+  document.getElementById('navigation').addEventListener('touchend', handleTouchEnd)
 
-    try {
-      iframeDocument.removeEventListener('touchend', handleTouchEnd)
-    } catch (error) {}
-
-    try {
-      iframeBody.removeEventListener('onclick', changePage)
-      iframeDocument.removeEventListener('onclick', changePage)
-    } catch (error) {}
-
-    iframeDocument.addEventListener('onclick', changePage)
-    iframeBody.addEventListener('onclick', changePage)
-    ///iframeDocument.addEventListener('touchstart', handleTouchStart)
-    //iframeDocument.addEventListener('touchend', handleTouchEnd)
-  } catch (error) {
-    setTimeout(addEventListener, 100)
-  }*/
-}
-
-function handleTouchStart(e) {
-  startX = e.touches[0].clientX
-  startY = e.touches[0].clientY
-}
-
-function handleTouchEnd(e) {
-  endX = e.changedTouches[0].clientX
-  endY = e.changedTouches[0].clientY
-  handleSwipe()
-}
-
-document.getElementById('navigation').addEventListener('click', changePage)
-document.getElementById('navigation').addEventListener('touchstart', handleTouchStart)
-document.getElementById('navigation').addEventListener('touchend', handleTouchEnd)
-
-// Register a hook to capture mouse events
-/*rendition.hooks.content.register(contents => {
+  // Register a hook to capture mouse events
+  /*rendition.hooks.content.register(contents => {
   contents.document.addEventListener('click', changePage)
   contents.document.addEventListener('touchstart', handleTouchStart)
   contents.document.addEventListener('touchend', handleTouchEnd)
 })*/
 
-function handleSwipe() {
-  const deltaX = endX - startX
-  const deltaY = Math.abs(endY - startY)
-  if (Math.abs(deltaX) > minHorizontalSwipe && deltaY < maxVerticalSwipe) {
-    if (deltaX > 0) {
-      console.log('Swiped right')
-      prevPage()
-    } else {
-      console.log('Swiped left')
-      nextPage()
+  function handleSwipe() {
+    const deltaX = endX - startX
+    const deltaY = Math.abs(endY - startY)
+    if (Math.abs(deltaX) > minHorizontalSwipe && deltaY < maxVerticalSwipe) {
+      if (deltaX > 0) {
+        console.log('Swiped right')
+        prevPage()
+      } else {
+        console.log('Swiped left')
+        nextPage()
+      }
     }
   }
-}
+} catch (error) {}
 
 setUpLibraryPanel()
 function setUpLibraryPanel() {
