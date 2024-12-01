@@ -16,4 +16,9 @@ const displayBooks = [
       'Dostoevsky, Fyodor & Pevear, Richard & Volokhonsky, Larissa/Notes from Underground/Notes from Underground - Fyodor Dostoevsky & Richard Pevear & Larissa Volokhonsky.jpg',
     bookPath: 'Dostoevsky, Fyodor & Pevear, Richard & Volokhonsky, Larissa/Notes from Underground',
   },
+  {
+    name: 'Paradise Lost',
+    cover: 'Books/Paradise Lost/cover.jpg',
+    bookPath: 'Books/Paradise Lost',
+  },
 ]
