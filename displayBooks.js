@@ -19,6 +19,6 @@ const displayBooks = [
   {
     name: 'Paradise Lost',
     cover: 'Books/Paradise Lost/cover.jpg',
-    bookPath: 'Books/Paradise Lost.epub',
+    bookPath: 'Books/Paradise Lost/Paradise Lost.epub',
   },
 ]
