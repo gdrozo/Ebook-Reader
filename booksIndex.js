@@ -18,7 +18,7 @@ const booksIndex = {
   q: '/Index/q.json',
   r: '/Index/r.json',
   s: '/Index/s.json',
-  t: '/Index/t.json',
+  t: './Index/t.json',
   u: '/Index/u.json',
   v: '/Index/v.json',
   w: '/Index/w.json',
