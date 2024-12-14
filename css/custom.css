@@ -85,7 +85,7 @@
 }
 
 .w-panel {
-  @apply w-[min(max(45dvw,22.5rem),45rem)];
+  @apply w-[min(max(45dvw,22.5rem),100dvw)];
 }
 
 .bg-main {
