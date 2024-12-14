@@ -39,7 +39,7 @@
   <body class="bg-[#181a1b] h-dvh w-dvw">
     <!-- <div id="title"></div> -->
 
-    <div class="fixed top-0 left-0 right-0 z-[5000]">V7</div>
+    <div class="fixed top-0 left-0 right-0 z-[5000]">V8</div>
 
     <nav class="bg-[#181a1b]"></nav>
 
@@ -168,7 +168,7 @@
       <!-- Library -->
       <div
         id="library"
-        class="fixed top-2 bottom-0 left-1 right-1 bg-transparent flex flex-col justify-start items-center bottom-hidden overflow-auto z-20"
+        class="fixed top-2 bottom-0 left-0 right-0 bg-transparent flex flex-col justify-start items-center bottom-hidden overflow-auto z-20"
       >
         <div
           class="rounded-t-xl flex flex-col justify-start items-center h-full backdrop-blur-sm bg-black/60 w-panel overflow-auto"
@@ -225,8 +225,25 @@
                 </button>
                 <button
                   id="goToPublicLibrary"
-                  class="flex justify-center items-center hover:text-white h-20"
+                  class="flex flex-col justify-center items-center hover:text-white h-20"
                 >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth="{1.5}"
+                    stroke="currentColor"
+                    className="size-6 text-inherit"
+                  >
+                    <path
+                      stroke="currentColor"
+                      class="text-inherit"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25"
+                    />
+                  </svg>
+
                   Public Library
                 </button>
               </div>
@@ -336,6 +353,7 @@
       <script src="security.js"></script>
       <script src="books.js"></script>
       -->
+    <script src="booksIndex.js"></script>
     <script src="localLibrary.js"></script>
     <script src="displayBooks.js"></script>
     <script src="util.js"></script>
