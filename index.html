@@ -15,7 +15,6 @@
     <script>
       const test = false
       function registerServiceWorker() {
-        debugger
         if (test) return test
         try {
           if ('serviceWorker' in navigator) {
@@ -35,6 +34,7 @@
           alert('Service Worker registration failed: ' + error)
         }
       }
+      registerServiceWorker()
     </script>
   </head>
   <body class="bg-[#181a1b] h-dvh w-dvw">
