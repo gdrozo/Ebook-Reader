@@ -140,7 +140,7 @@ async function loadBook(url) {
     width: '100%',
     height: adjustedHeight,
     spread: 'always',
-    stylesheet: `${currentUrl.includes('Ebook-Reader') ? 'Ebook-Reader' : ''}/css/injected.css`,
+    stylesheet: `${currentUrl.includes('Ebook-Reader') ? '/Ebook-Reader' : ''}/css/injected.css`,
   })
 
   return { book, rendition }
