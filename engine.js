@@ -133,12 +133,14 @@ async function loadBook(url) {
 
   book.open(bookData, 'binary')
 
+  const currentUrl = window.location.href
+
   // Render the book
   rendition = book.renderTo('viewer', {
     width: '100%',
     height: adjustedHeight,
     spread: 'always',
-    stylesheet: `/css/injected.css`,
+    stylesheet: `${currentUrl.includes('Ebook-Reader') ? 'Ebook-Reader' : ''}/css/injected.css`,
   })
 
   return { book, rendition }
