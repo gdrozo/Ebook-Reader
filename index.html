@@ -23,7 +23,11 @@
                 .register('./service-worker.js')
                 .then(registration => {
                   console.log('Service Worker registered with scope:', registration.scope)
-                  alert('Service Worker registered with scope:' + registration.scope)
+                  registration.onmessage = event => {
+                    // Update UI with the fetch log
+                    addFetchLogToUI(event.data.payload)
+                  }
+                  //alert('Service Worker registered with scope:' + registration.scope)
                 })
                 .catch(error => {
                   console.log('Service Worker registration failed:', error)
@@ -34,6 +38,9 @@
         } catch (error) {
           alert('Service Worker registration failed: ' + error)
         }
+      }
+      function addFetchLogToUI(logEntry) {
+        console.log(logEntry)
       }
     </script>
   </head>
