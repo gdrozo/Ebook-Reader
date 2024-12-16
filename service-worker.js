@@ -3,13 +3,11 @@ const CACHE_NAME = 'epub-reader-cache-v2'
 const urlsToCache = [
   `./`,
   `./index.html`,
-  `./css/custom.css`,
+  `./css/output.css`,
   `./index.js`,
   `./service-worker.js`,
   `./libs/jszip.min.js`,
   `./libs/epub.js`,
-  `./security.js`,
-  `./books.js`,
   `./css/themes.css`,
   // Add other assets here
 ]
