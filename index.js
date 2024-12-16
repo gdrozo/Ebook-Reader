@@ -1,4 +1,4 @@
-//registerServiceWorker()
+registerServiceWorker()
 
 let bookName, bookPath, book, rendition
 

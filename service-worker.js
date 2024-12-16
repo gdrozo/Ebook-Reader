@@ -1,5 +1,5 @@
 //const SERVER_PATH = ''
-const CACHE_NAME = 'epub-reader-cache-v1'
+const CACHE_NAME = 'epub-reader-cache-v2'
 const urlsToCache = [
   `./`,
   `./index.html`,
@@ -14,39 +14,49 @@ const urlsToCache = [
   // Add other assets here
 ]
 //const urlsToCache = []
+console.log('Service Worker registered')
 
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(urlsToCache)))
 })
 
 self.addEventListener('fetch', event => {
+  console.log('Fetch event for:', event.request.url)
   event.respondWith(
-    caches
-      .match(event.request)
-      .then(cachedResponse => {
-        if (cachedResponse) {
-          return cachedResponse
-        }
-        return fetch(event.request).then(networkResponse => {
-          // Check if we received a valid response
-          if (
-            !networkResponse ||
-            networkResponse.status !== 200 ||
-            networkResponse.type !== 'basic'
-          ) {
+    caches.match(event.request).then(cachedResponse => {
+      if (cachedResponse) {
+        console.log('Serving from cache:', event.request.url)
+        return cachedResponse
+      }
+      return fetch(event.request)
+        .then(networkResponse => {
+          if (!networkResponse || networkResponse.status !== 200) {
+            console.warn('Invalid network response:', networkResponse.status, event.request.url)
             return networkResponse
           }
-          // Check if the request is for an .epub file
-          if (!event.request.url.endsWith('.epub')) {
-            const responseToCache = networkResponse.clone()
-            caches.open(CACHE_NAME).then(cache => {
-              cache.put(event.request, responseToCache)
+          const responseToCache = networkResponse.clone()
+          caches
+            .open(CACHE_NAME)
+            .then(cache => {
+              cache
+                .put(event.request, responseToCache)
+                .then(() => {
+                  console.log('Cached:', event.request.url)
+                })
+                .catch(err => {
+                  console.error('Error caching:', err, event.request.url)
+                })
             })
-          }
+            .catch(err => {
+              console.error('Error opening cache:', err)
+            })
           return networkResponse
         })
-      })
-      .catch(() => caches.match('/index.html')) // fallback to offline page
+        .catch(error => {
+          console.error('Fetch failed:', error, event.request.url)
+          return caches.match('/index.html') // Fallback to offline page
+        })
+    })
   )
 })
 
