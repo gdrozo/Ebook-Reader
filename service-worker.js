@@ -19,18 +19,6 @@ self.addEventListener('install', event => {
 })
 
 self.addEventListener('fetch', event => {
-  self.clients.matchAll().then(clients => {
-    clients.forEach(client => {
-      client.postMessage({ type: 'fetchLog', payload: 'Fetch event for:' + event.request.url })
-    })
-  })
-  console.log('Fetch event for:', event.request.url)
-  const fetchLog = {
-    url: event.request.url,
-    timestamp: Date.now(),
-    method: event.request.method,
-  }
-
   event.respondWith(
     caches.match(event.request).then(async cachedResponse => {
       if (cachedResponse) {
@@ -64,13 +52,7 @@ self.addEventListener('fetch', event => {
             console.error('Error opening cache:', err)
           })
 
-        self.clients.matchAll().then(clients => {
-          clients.forEach(client => {
-            client.postMessage({ type: 'fetchLog', payload: fetchLog })
-          })
-        })
-
-        return networkResponse || cachedResponse || fetch(event.request)
+        return networkResponse || cachedResponse
       } catch (error) {
         console.error('Fetch failed:', error, event.request.url)
         return caches.match('/index.html') // Fallback to offline page
