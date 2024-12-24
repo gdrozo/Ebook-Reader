@@ -17,3 +17,21 @@ function blobToBase64(blob) {
     reader.readAsDataURL(blob)
   })
 }
+
+async function getFilesInCache(cacheName) {
+  try {
+    // Open the specified cache.
+    const cache = await caches.open(cacheName)
+
+    // Get all the requests (keys) in the cache.
+    const requests = await cache.keys()
+
+    // Extract the URLs from the requests.
+    const urls = requests.map(request => request.url)
+
+    return urls
+  } catch (error) {
+    console.error(`Error getting files from cache '${cacheName}':`, error)
+    return [] // Return an empty array on error
+  }
+}

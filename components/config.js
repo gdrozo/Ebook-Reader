@@ -1,3 +1,5 @@
+const CACHE_NAME = 'epub-reader-cache-v2'
+
 let textSize = localStorage.getItem('textSize')
 
 if (!textSize) {
@@ -43,6 +45,16 @@ document.getElementById('configButton').onclick = e => {
                   </svg>
               </button>
           </div>
+
+          <div class="flex justify-center items-center">
+            <label class="text-center" for="textSize">Saved Files</label>
+          </div>
+          <div></div>
+
+          <div id="savedFiles" class="col-span-2">
+          <br>
+          </div>
+
         </div>
     </div>
   </div>`
@@ -89,4 +101,12 @@ document.getElementById('configButton').onclick = e => {
     localStorage.setItem('textSize', textSize)
     window.rendition.themes.fontSize(textSize + 'px')
   }
+
+  getFilesInCache(CACHE_NAME).then(files => {
+    files.forEach(file => {
+      const div = document.createElement('div')
+      div.innerHTML = file
+      document.getElementById('savedFiles').appendChild(div)
+    })
+  })
 }
