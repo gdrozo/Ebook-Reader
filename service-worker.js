@@ -20,57 +20,21 @@ self.addEventListener('install', event => {
 
 self.addEventListener('fetch', event => {
   event.respondWith(
-    caches.match(event.request).then(async cachedResponse => {
-      if (cachedResponse) {
-        return cachedResponse
-      }
-
-      try {
-        const networkResponse = await fetch(event.request)
-
-        if (!networkResponse || networkResponse.status !== 200) {
-          return networkResponse
-        }
-
-        fetchLog.source = 'network'
-
-        const responseToCache = networkResponse.clone()
-        caches
-          .open(CACHE_NAME)
-          .then(cache => {
-            cache
-              .put(event.request, responseToCache)
-              .then(() => {
-                console.log('Cached:', event.request.url)
-              })
-              .catch(err => {
-                console.error('Error caching:', err, event.request.url)
-              })
-          })
-          .catch(err => {
-            console.error('Error opening cache:', err)
-          })
-
-        return networkResponse || cachedResponse
-      } catch (error) {
-        console.error('Fetch failed:', error, event.request.url)
-        return caches.match('/index.html') // Fallback to offline page
-      }
-    })
-  )
-})
-
-self.addEventListener('activate', event => {
-  const cacheWhitelist = [CACHE_NAME]
-  event.waitUntil(
-    caches.keys().then(keyList =>
-      Promise.all(
-        keyList.map(key => {
-          if (!cacheWhitelist.includes(key)) {
-            return caches.delete(key)
+    caches.match(event.request).then(
+      response =>
+        response ||
+        fetch(event.request).then(fetchedResponse => {
+          if (
+            !fetchedResponse ||
+            fetchedResponse.status !== 200 ||
+            fetchedResponse.type !== 'basic'
+          ) {
+            return fetchedResponse
           }
+          const responseToCache = fetchedResponse.clone()
+          caches.open(CACHE_NAME).then(cache => cache.put(event.request, responseToCache))
+          return fetchedResponse
         })
-      )
     )
   )
 })
