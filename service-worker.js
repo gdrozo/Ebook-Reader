@@ -22,14 +22,13 @@ self.addEventListener('fetch', event => {
   event.respondWith(
     caches.match(event.request).then(async cachedResponse => {
       if (cachedResponse) {
-        fetchLog.source = 'cache'
+        return cachedResponse
       }
 
       try {
         const networkResponse = await fetch(event.request)
 
         if (!networkResponse || networkResponse.status !== 200) {
-          console.warn('Invalid network response:', networkResponse.status, event.request.url)
           return networkResponse
         }
 
