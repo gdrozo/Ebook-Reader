@@ -1,3 +1,4 @@
+/*
 //const SERVER_PATH = ''
 const CACHE_NAME = 'epub-reader-cache-v2'
 const urlsToCache = [
@@ -38,3 +39,4 @@ self.addEventListener('fetch', event => {
     )
   )
 })
+*/

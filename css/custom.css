@@ -1,25 +1,35 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
 
 .arrow {
   @apply fixed top-0 bottom-0 w-8;
 }
 
-* {
+div,
+button,
+p,
+span,
+a {
   color: rgb(156, 163, 175);
   font-family: 'Libre Baskerville', serif;
 }
 
 #menu {
-  background: linear-gradient(-45deg, rgba(48, 47, 47, 0.8), rgba(0, 0, 0, 0.8));
+  background: linear-gradient(
+    -45deg,
+    rgba(48, 47, 47, 0.8),
+    rgba(0, 0, 0, 0.8)
+  );
   background-size: 400% 400%;
   animation: gradient 15s ease infinite;
   width: min(20rem, 100dvw);
 }
 
 .menu {
-  background: linear-gradient(-45deg, rgba(48, 47, 47, 0.8), rgba(0, 0, 0, 0.8));
+  background: linear-gradient(
+    -45deg,
+    rgba(48, 47, 47, 0.8),
+    rgba(0, 0, 0, 0.8)
+  );
   background-size: 400% 400%;
   animation: gradient 15s ease infinite;
 }
@@ -174,4 +184,16 @@ input[type='number'] {
 /* Remove spinner */
 input[type='number'] {
   -moz-appearance: textfield;
+}
+
+.text-white\/50 {
+  color: color-mix(in oklab, var(--color-white) 50%, transparent) !important;
+}
+
+.hover\:text-white {
+  &:hover {
+    @media (hover: hover) {
+      color: var(--color-white) !important;
+    }
+  }
 }

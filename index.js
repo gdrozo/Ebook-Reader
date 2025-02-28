@@ -28,36 +28,19 @@ async function loadCurrentBook() {
   }
 
   book.ready.then(() => {
-    let next = document.getElementById('next')
-
-    next.addEventListener(
-      'click',
-      function (e) {
-        book.package.metadata.direction === 'rtl' ? rendition.prev() : rendition.next()
-        e.preventDefault()
-      },
-      false
-    )
-
-    let prev = document.getElementById('prev')
-    prev.addEventListener(
-      'click',
-      function (e) {
-        book.package.metadata.direction === 'rtl' ? rendition.next() : rendition.prev()
-        e.preventDefault()
-      },
-      false
-    )
-
     let keyListener = function (e) {
       // Left Key
       if ((e.keyCode || e.which) == 37) {
-        book.package.metadata.direction === 'rtl' ? rendition.next() : rendition.prev()
+        book.package.metadata.direction === 'rtl'
+          ? rendition.next()
+          : rendition.prev()
       }
 
       // Right Key
       if ((e.keyCode || e.which) == 39) {
-        book.package.metadata.direction === 'rtl' ? rendition.prev() : rendition.next()
+        book.package.metadata.direction === 'rtl'
+          ? rendition.prev()
+          : rendition.next()
       }
     }
 
@@ -277,8 +260,12 @@ try {
   }
 
   document.getElementById('navigation').addEventListener('click', changePage)
-  document.getElementById('navigation').addEventListener('touchstart', handleTouchStart)
-  document.getElementById('navigation').addEventListener('touchend', handleTouchEnd)
+  document
+    .getElementById('navigation')
+    .addEventListener('touchstart', handleTouchStart)
+  document
+    .getElementById('navigation')
+    .addEventListener('touchend', handleTouchEnd)
 
   // Register a hook to capture mouse events
   /*rendition.hooks.content.register(contents => {

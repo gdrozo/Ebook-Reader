@@ -22,7 +22,10 @@
               navigator.serviceWorker
                 .register('./service-worker.js')
                 .then(registration => {
-                  console.log('Service Worker registered with scope:', registration.scope)
+                  console.log(
+                    'Service Worker registered with scope:',
+                    registration.scope
+                  )
                   registration.onmessage = event => {
                     // Update UI with the fetch log
                     addFetchLogToUI(event.data.payload)
@@ -56,8 +59,12 @@
       class="fixed top-0 left-0 right-0 bottom-0 flex justify-center items-center bg-[#181a1b]"
     >
       <div class="w-main h-full relative">
-        <nav class="absolute top-0 left-4 right-4 overflow-hidden z-10 py-4 bg-[#181a1b]">
-          <div class="grid grid-cols-[2rem_auto_2rem] items-end z-10 bg-[#181a1b] overflow-hidden">
+        <nav
+          class="absolute top-0 left-4 right-4 overflow-hidden z-10 py-4 bg-[#181a1b]"
+        >
+          <div
+            class="grid grid-cols-[2rem_auto_2rem] items-end z-10 bg-[#181a1b] overflow-hidden"
+          >
             <button
               class="flex justify-start pb-4 hover:text-white hover:scale-110 transition-all duration-300"
               id="menuButton"
@@ -78,7 +85,10 @@
                 />
               </svg>
             </button>
-            <div id="bookName" class="mb-3.5 h-6 overflow-hidden text-center text-lg">
+            <div
+              id="bookName"
+              class="mb-3.5 h-6 overflow-hidden text-center text-lg"
+            >
               Things to ones self
             </div>
             <button
@@ -103,17 +113,62 @@
             </button>
           </div>
         </nav>
-        <div id="viewer" class="outline-1 outline-green-300 w-full z-0 mt-14"></div>
+        <div id="viewer" class="w-full z-0 mt-14"></div>
       </div>
     </div>
 
-    <button id="prev" href="#prev" class="arrow left-0 sr-only">‹</button>
-    <button id="next" href="#next" class="arrow right-0 sr-only">›</button>
+    <button
+      id="prev"
+      href="#prev"
+      class="arrow left-0 hidden sm:block z-20 cursor-pointer text-white/50 hover:text-white"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="lucide lucide-chevron-left"
+      >
+        <path d="m15 18-6-6 6-6" />
+      </svg>
+    </button>
 
-    <div id="navigation" class="fixed top-20 left-0 right-0 bottom-0 z-10 bg-transparent"></div>
+    <button
+      id="next"
+      href="#next"
+      class="arrow right-0 hidden sm:block z-20 cursor-pointer text-white/50 hover:text-white"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="lucide lucide-chevron-right"
+      >
+        <path d="m9 18 6-6-6-6" />
+      </svg>
+    </button>
+
+    <div
+      id="navigation"
+      class="fixed top-20 left-0 right-0 bottom-0 z-10 bg-transparent hiddens"
+    ></div>
 
     <div id="additional-screen" class="">
-      <div id="cover" class="fixed top-0 bottom-0 left-0 right-0 z-10 opacity-0 hidden"></div>
+      <div
+        id="cover"
+        class="fixed top-0 bottom-0 left-0 right-0 z-10 opacity-0 hidden"
+      ></div>
 
       <div
         id="menu"
@@ -169,7 +224,9 @@
           id="index"
           class="absolute top-20 left-12 flex flex-col gap-3 right-5 items-stretch bottom-0 overflow-x-hidden overflow-y-scroll"
         >
-          <div id="menuBookName" class="font-bold text-2xl pb-3">Things to ones self</div>
+          <div id="menuBookName" class="font-bold text-2xl pb-3">
+            Things to ones self
+          </div>
         </div>
       </div>
 
@@ -209,11 +266,17 @@
             </div>
             <div></div>
             <div></div>
-            <div id="area" class="min-h-[calc(100svh-4rem-1rem)] overflow-auto pb-10">
+            <div
+              id="area"
+              class="min-h-[calc(100svh-4rem-1rem)] overflow-auto pb-10"
+            >
               <div id="links"></div>
               <div id="content" class="grid grid-cols-2 mt-7 gap-5">
                 <input class="hidden" type="file" id="bookInput" />
-                <button id="addBook" class="flex justify-center items-center hover:text-white h-20">
+                <button
+                  id="addBook"
+                  class="flex justify-center items-center hover:text-white h-20"
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -268,7 +331,10 @@
           class="absolute top-0 bottom-0 left-0 right-0 z-20 bg-[#181a1b] flex flex-col justify-end items-center text-white/70"
         >
           <div id="pass" class="text-lg">Use the pin to enter</div>
-          <div id="numPad" class="grid grid-cols-3 grid-rows-4 gap-x-6 gap-y-4 mt-6 mb-24 text-lg">
+          <div
+            id="numPad"
+            class="grid grid-cols-3 grid-rows-4 gap-x-6 gap-y-4 mt-6 mb-24 text-lg"
+          >
             <button
               id=""
               class="bg-white/20 rounded-full h-16 w-16 flex justify-center items-center active:bg-white/30"
