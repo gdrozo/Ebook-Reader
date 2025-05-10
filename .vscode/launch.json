@@ -10,7 +10,18 @@
       "request": "launch",
       "mode": "auto",
       "program": "${fileDirname}",
-      "args": ["C:\\Users\\Usuario\\Downloads\\pg84-images-3.epub"]
+      "args": ["C:\\Users\\Usuario\\Documents\\Work\\Ebook-Reader\\JSX Test"]
+    },
+    {
+      "name": "Debug JSX Watcher",
+      "type": "go",
+      "request": "launch",
+      "mode": "auto",
+      "program": "${fileDirname}",
+      "args": [
+        "-dir",
+        "C:\\Users\\Usuario\\Documents\\Work\\Ebook-Reader\\JSX Test"
+      ]
     }
   ]
 }

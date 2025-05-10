@@ -13,7 +13,7 @@
     <link rel="manifest" href="./manifest.json" />
 
     <script>
-      const test = false
+      const test = true
       function registerServiceWorker() {
         if (test) return test
         try {
@@ -47,13 +47,9 @@
       }
     </script>
   </head>
+
   <body class="bg-[#181a1b] h-dvh w-dvw">
-    <!-- <div id="title"></div> -->
-
-    <div class="fixed top-0 left-0 right-0 z-[5000]">V8</div>
-
-    <nav class="bg-[#181a1b]"></nav>
-
+    <div class="fixed top-0 left-0 right-0 z-[5000]">V9</div>
     <div
       id="container"
       class="fixed top-0 left-0 right-0 bottom-0 flex justify-center items-center bg-[#181a1b]"
@@ -66,7 +62,7 @@
             class="grid grid-cols-[2rem_auto_2rem] items-end z-10 bg-[#181a1b] overflow-hidden"
           >
             <button
-              class="flex justify-start pb-4 hover:text-white hover:scale-110 transition-all duration-300"
+              class="flex justify-start pb-4 cursor-pointer hover:text-white hover:scale-110 transition-all duration-300"
               id="menuButton"
             >
               <svg
@@ -93,7 +89,7 @@
             </div>
             <button
               id="libraryButton"
-              class="flex justify-end pb-4 w-8 hover:text-white hover:scale-110 transition-all duration-300"
+              class="flex cursor-pointer justify-end pb-4 w-8 hover:text-white hover:scale-110 transition-all duration-300"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

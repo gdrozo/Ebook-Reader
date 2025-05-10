@@ -1,4 +1,3 @@
-/*
 //const SERVER_PATH = ''
 const CACHE_NAME = 'epub-reader-cache-v2'
 const urlsToCache = [
@@ -16,7 +15,9 @@ const urlsToCache = [
 console.log('Service Worker Working')
 
 self.addEventListener('install', event => {
-  event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(urlsToCache)))
+  event.waitUntil(
+    caches.open(CACHE_NAME).then(cache => cache.addAll(urlsToCache))
+  )
 })
 
 self.addEventListener('fetch', event => {
@@ -33,10 +34,13 @@ self.addEventListener('fetch', event => {
             return fetchedResponse
           }
           const responseToCache = fetchedResponse.clone()
-          caches.open(CACHE_NAME).then(cache => cache.put(event.request, responseToCache))
+          caches
+            .open(CACHE_NAME)
+            .then(cache => cache.put(event.request, responseToCache))
           return fetchedResponse
         })
     )
   )
 })
-*/
+/*
+ */
